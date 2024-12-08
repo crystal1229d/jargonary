@@ -18,7 +18,7 @@ export default async function CategoryPage() {
 
       <div className={styles.search}>
         <button>Search</button>
-        <input type="text" />
+        <input type="text" placeholder="Input a word for searching" />
       </div>
 
       <ul className={styles['categories-list']}>
