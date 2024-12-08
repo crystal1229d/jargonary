@@ -1,0 +1,31 @@
+.navbar {
+  margin-right: auto;
+  display: flex;
+}
+
+.navList {
+  display: flex;
+  gap: 30px;
+  list-style: none;
+}
+
+.navList li {
+  margin-top: 10px;
+
+  font-size: 0.9rem;
+  font-weight: 200;
+  text-decoration: none;
+  border: none;
+  border-bottom: 1px dashed #fff;
+  padding: 0 0 8px;
+  cursor: pointer;
+}
+.navList li.active {
+  border-color: black;
+}
+
+@media (max-width: 844px) {
+  .navbar {
+    display: none;
+  }
+}

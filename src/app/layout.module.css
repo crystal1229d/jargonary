@@ -1,0 +1,15 @@
+.content {
+  width: 1200px;
+  margin: 100px auto 100px auto;
+}
+
+@media (max-width: 1280px) {
+  .content {
+    width: 844px;
+  }
+}
+@media (max-width: 844px) {
+  .content {
+    width: calc(100% - 40px);
+  }
+}
