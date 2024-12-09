@@ -1,5 +1,8 @@
 import { fetchCategories } from '@/services/category'
 import { Category } from '@/types'
+
+import Search from '@/components/category/Search'
+import Control from '@/components/category/Control'
 import CategoryItem from '@/components/category/CategoryItem'
 import styles from './page.module.css'
 
@@ -8,18 +11,8 @@ export default async function CategoryPage() {
 
   return (
     <main className={styles.page}>
-      {/* <div className={styles.nav}>
-        <button>Back</button>
-        <div>
-          <span>Categories</span>
-        </div>
-        <button>More</button>
-      </div> */}
-
-      <div className={styles.search}>
-        <button>Search</button>
-        <input type="text" placeholder="Input a word for searching" />
-      </div>
+      <Search />
+      <Control />
 
       <ul className={styles['categories-list']}>
         {categories.map((category: Category) => (

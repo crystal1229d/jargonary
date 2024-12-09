@@ -1,0 +1,29 @@
+.search {
+  max-width: 706px; /* Category : 222 * 3 + 20 * 2 */
+  margin: 0 auto 10px;
+  padding: 0 8px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 2px solid black;
+}
+
+.search input {
+  flex: 1;
+  margin-right: 8px;
+  padding: 10px;
+
+  border: none;
+  font-size: 1rem;
+}
+.search input:focus {
+  outline: none;
+}
+
+@media (max-width: 844px) {
+  .search {
+    max-width: 464px; /* 222 * 2 + 20 * 1 */
+  }
+}
