@@ -2,12 +2,19 @@ import { supaBrowserClient } from '@/lib/supabase'
 import { CategoryDTO } from '@/dto/category'
 import { Category } from '@/types'
 
-export async function fetchCategories(): Promise<Category[]> {
+export async function fetchCategories(
+  sortBy: 'name' | 'recent',
+): Promise<Category[]> {
+  const orderBy =
+    sortBy === 'name'
+      ? { column: 'name', ascending: true }
+      : { column: 'updated_at', ascending: false }
+
   const { data, error } = await supaBrowserClient
     .from('category')
     .select('*')
-    .order('name', { ascending: true })
-  // .range(0, 9) // 첫 10개 (페이징)
+    .order(orderBy.column, { ascending: orderBy.ascending })
+    .range(0, 9)
 
   if (error) {
     console.error('Error fetching categories:', error)

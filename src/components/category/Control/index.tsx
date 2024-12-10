@@ -1,13 +1,21 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import styles from './Control.module.css'
 
-export default function Control() {
-  const [isNameSort, setIsNameSort] = useState(true)
+interface Props {
+  currentSort: 'name' | 'recent'
+}
+
+export default function Control({ currentSort }: Props) {
+  const router = useRouter()
+  const [isNameSort, setIsNameSort] = useState(currentSort === 'name')
 
   const toggleSort = () => {
+    const newSortBy = isNameSort ? 'recent' : 'name'
     setIsNameSort((prev) => !prev)
+    router.push(`?sort_by=${newSortBy}`)
   }
 
   return (
