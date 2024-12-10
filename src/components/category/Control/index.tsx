@@ -3,6 +3,8 @@
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import styles from './Control.module.css'
+import Switch from '@/components/common/Switch'
+import Link from 'next/link'
 
 interface Props {
   currentSort: 'name' | 'recent'
@@ -21,17 +23,16 @@ export default function Control({ currentSort }: Props) {
   return (
     <div className={styles.control}>
       <div className={styles.switch}>
-        <label className={styles['slider-track']}>
-          <input type="checkbox" onChange={toggleSort} checked={!isNameSort} />
-          <span className={styles['slider-button']}></span>
-        </label>
+        <Switch isChecked={!isNameSort} onChange={toggleSort} />
         <div className={styles.message}>
           <span>Sort by</span>
           <span>{isNameSort ? 'Name' : 'Updated'}</span>
         </div>
       </div>
 
-      <button className={styles.button}>Create</button>
+      <Link href="/category/new">
+        <button className={styles.button}>Create</button>
+      </Link>
     </div>
   )
 }

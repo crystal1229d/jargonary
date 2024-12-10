@@ -17,7 +17,7 @@ export default function CategoryItem({ category }: Props) {
             alt="category"
             width="222"
             height="168"
-            loading="lazy"
+            priority={true}
           />
         </div>
         <div className={styles['info-section']}>

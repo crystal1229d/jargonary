@@ -8,7 +8,7 @@ export async function fetchCategories(
   const orderBy =
     sortBy === 'name'
       ? { column: 'name', ascending: true }
-      : { column: 'updated_at', ascending: false }
+      : { column: 'updated_at', ascending: true }
 
   const { data, error } = await supaBrowserClient
     .from('category')

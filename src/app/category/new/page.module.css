@@ -1,0 +1,144 @@
+.page {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+}
+
+.title {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Preview */
+.preview {
+  position: relative;
+  width: 222px;
+  height: 168px;
+
+  cursor: pointer;
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.preview:hover {
+  transform: scale(1.015);
+}
+
+.preview-image {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.preview-info {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding: 15px 25px 10px 10px;
+  box-sizing: border-box;
+
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 82% 13% 5%;
+  align-items: center;
+
+  top: 0;
+  left: 0;
+}
+.preview-info .icon {
+  padding: 10px;
+  font-size: 1.8rem;
+  margin: 20px 0 0 15px;
+  border: 1px solid #000000;
+  border-radius: 50%;
+}
+.preview-info .name {
+  padding: 4px 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 1px solid #000000;
+  border-radius: 12px;
+}
+.preview-info .words {
+  margin-left: auto;
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+/* Preview */
+
+.form {
+  display: grid;
+  gap: 1rem;
+  width: 100%;
+  max-width: 400px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formGroup label {
+  font-weight: bold;
+}
+
+.formGroup input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.selector {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  background-color: #f9f9f9;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.cancelButton {
+  background-color: #f5f5f5;
+  color: #555;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cancelButton:hover {
+  background-color: #ddd;
+}
+
+.createButton {
+  background-color: #0070f3;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.createButton:hover {
+  background-color: #005bb5;
+}
+
+/* @media (max-width: 1280px) { } */
+
+@media (max-width: 844px) {
+  .categories-list {
+    grid-template-columns: 222px 222px;
+    justify-content: center;
+  }
+}
