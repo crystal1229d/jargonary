@@ -16,3 +16,15 @@ export const NAVIGATION = [
     link: '/profile',
   },
 ]
+
+export const ColorPalette = [
+  'white',
+  'pink',
+  'green',
+  'yellow',
+  'blue',
+  'purple',
+  'black',
+  'orange',
+  'red',
+]

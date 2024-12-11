@@ -1,0 +1,50 @@
+.preview {
+  position: relative;
+  width: 222px;
+  height: 168px;
+
+  cursor: pointer;
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.preview-image {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.preview-info {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding: 15px 25px 10px 10px;
+  box-sizing: border-box;
+
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 82% 13% 5%;
+  align-items: center;
+
+  top: 0;
+  left: 0;
+}
+.preview-info .icon {
+  padding: 10px;
+  font-size: 1.8rem;
+  margin: 20px 0 0 15px;
+  border: 1px solid #000000;
+  border-radius: 50%;
+}
+.preview-info .name {
+  padding: 4px 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 1px solid #000000;
+  border-radius: 12px;
+}
+.preview-info .words {
+  margin-left: auto;
+  font-size: 0.8rem;
+  opacity: 0.7;
+}

@@ -1,0 +1,105 @@
+.form {
+  width: 100%;
+  margin-top: 30px;
+
+  display: grid;
+  gap: 2rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.formGroup label {
+  font-weight: bold;
+}
+.formGroup input {
+  padding: 0.5rem;
+  border: 1px solid #eaeaea;
+  border-radius: 4px;
+}
+
+.selector {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  background-color: #f9f9f9;
+}
+
+.colorOptions {
+  width: 100%;
+  display: grid;
+  align-items: center;
+  grid-template-columns: repeat(5, 20%);
+  grid-template-rows: 40px;
+  row-gap: 15px;
+
+  /* border: 1px solid #eaeaea;
+  border-radius: 8px;
+  padding: 10px; */
+}
+
+.colorCircle {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #eaeaea;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.2s;
+}
+.colorCircle:hover {
+  transform: scale(1.05);
+  border: 1px solid #bdbdbd;
+}
+.colorCircle:active {
+  border: 1px solid #bdbdbd;
+}
+.colorCircle .color {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid #eaeaea;
+}
+
+.buttonGroup {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.cancelButton {
+  padding: 0.75rem 2rem;
+  border: 2px solid #888;
+  border-radius: 5px;
+  font-weight: 700;
+  color: #888;
+
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.2s;
+}
+.cancelButton:hover {
+  transform: scale(1.03);
+}
+
+.createButton {
+  /* background-color: var(--yellow); */
+  padding: 0.75rem 2rem;
+  border: 2px solid black;
+  border-radius: 5px;
+  font-weight: 700;
+
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.2s;
+}
+.createButton:hover {
+  transform: scale(1.03);
+  /* background-color: var(--yellow); */
+}
