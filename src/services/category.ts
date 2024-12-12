@@ -1,4 +1,4 @@
-import { supaBrowserClient } from '@/lib/supabase'
+import { supaBrowserClient } from '@/lib/supabase/client'
 import { CategoryDTO } from '@/dto/category'
 import { Category, NewCategoryForm } from '@/types'
 

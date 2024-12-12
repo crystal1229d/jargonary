@@ -1,5 +1,5 @@
 import { WordDTO } from '@/dto/word'
-import { supaBrowserClient } from '@/lib/supabase'
+import { supaBrowserClient } from '@/lib/supabase/client'
 import { Word } from '@/types'
 
 export async function fetchWords(): Promise<Word[]> {
