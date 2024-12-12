@@ -2,15 +2,16 @@
 
 import { useState } from 'react'
 import EmojiPicker from 'emoji-picker-react'
+import { Category } from '@/types'
 import styles from './EmojiHub.module.css'
 
 interface Props {
-  selectedEmoji: string
-  setSelectedEmoji: (emoji: string) => void
+  selectedEmoji: Category['icon']
+  setSelectedEmoji: (emoji: Category['icon']) => void
 }
 
 export default function EmojiHub({ selectedEmoji, setSelectedEmoji }: Props) {
-  const [isPickerOpen, setIsPickerOpen] = useState(false)
+  const [isPickerOpen, setIsPickerOpen] = useState<boolean>(false)
 
   const handleClickSearch = () => {
     setIsPickerOpen((prev) => !prev)

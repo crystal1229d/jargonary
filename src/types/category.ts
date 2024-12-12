@@ -11,3 +11,5 @@ export interface Category {
   wordCount: number
   createdAt: string
 }
+
+export type NewCategoryForm = Pick<Category, 'name' | 'color' | 'icon'>

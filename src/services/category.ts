@@ -1,6 +1,6 @@
 import { supaBrowserClient } from '@/lib/supabase'
 import { CategoryDTO } from '@/dto/category'
-import { Category } from '@/types'
+import { Category, NewCategoryForm } from '@/types'
 
 export async function fetchCategories(
   sortBy: 'name' | 'recent',
@@ -24,21 +24,24 @@ export async function fetchCategories(
   return (data || []).map(CategoryDTO.fromSnakeCase)
 }
 
-// export async function createCategory(
-//   category: CategoryForm,
-// ): Promise<Category> {
-//   const { data, error } = await supaBrowserClient
-//     .from('category')
-//     .insert([category])
-//     .single()
+export async function createCategory(
+  newCategory: NewCategoryForm,
+): Promise<Category> {
+  const { data, error } = await supaBrowserClient
+    .from('category')
+    .insert({
+      dictionary_id: '23730136-cd9c-47f3-b9b6-861a405709212',
+      ...newCategory,
+    })
+    .single()
 
-//   if (error) {
-//     console.error('Error creating category:', error)
-//     throw new Error('Failed to create category')
-//   }
+  if (error) {
+    console.error('Error creating category:', error)
+    throw new Error('Failed to create category')
+  }
 
-//   return CategoryDTO.fromSnakeCase(data)
-// }
+  return CategoryDTO.fromSnakeCase(data)
+}
 
 export async function updateCategory(
   id: Pick<Category, 'id'>,

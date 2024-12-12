@@ -1,12 +1,13 @@
 'use client'
 
 import Image from 'next/image'
+import { Category } from '@/types'
 import styles from './Preview.module.css'
 
 interface Props {
-  name: string
-  icon: string
-  color: string
+  name: Category['name']
+  icon: Category['icon']
+  color: Category['color']
 }
 
 export default function Preview({ name, icon, color }: Props) {

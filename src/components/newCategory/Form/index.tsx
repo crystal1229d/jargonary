@@ -1,18 +1,23 @@
 'use client'
 
 import { Fragment, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { Category, NewCategoryForm } from '@/types'
 import EmojiHub from '@/components/newCategory/EmojiHub'
 import Preview from '@/components/newCategory/Preview'
 import styles from './Form.module.css'
+import { createCategory } from '@/services/category'
 
 interface Props {
-  ColorPalette: string[]
+  ColorPalette: Category['color'][]
 }
 
 export default function CategoryForm({ ColorPalette }: Props) {
-  const [name, setName] = useState('')
-  const [icon, setIcon] = useState('🍀')
-  const [color, setColor] = useState('green')
+  const router = useRouter()
+
+  const [name, setName] = useState<Category['name']>('')
+  const [icon, setIcon] = useState<Category['icon']>('🍀')
+  const [color, setColor] = useState<Category['color']>('green')
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value)
@@ -22,10 +27,17 @@ export default function CategoryForm({ ColorPalette }: Props) {
     setColor(selectedColor)
   }
 
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     // API 호출 로직 추가
+    const newCategory: NewCategoryForm = {
+      name,
+      color,
+      icon,
+    }
+
+    await createCategory(newCategory)
   }
 
   return (
@@ -70,7 +82,11 @@ export default function CategoryForm({ ColorPalette }: Props) {
         </div>
 
         <div className={styles.buttonGroup}>
-          <button type="button" className={styles.cancelButton}>
+          <button
+            type="button"
+            onClick={() => router.back()}
+            className={styles.cancelButton}
+          >
             Cancel
           </button>
           <button
