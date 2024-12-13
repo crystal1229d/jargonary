@@ -1,16 +1,17 @@
 import { fetchWordsByCategory } from '@/services/word'
 import { Word } from '@/types'
 
-export default async function CategoryDetailPage({
-  params,
-}: {
-  params: { categoryId: string }
-}) {
-  const words: Word[] = await fetchWordsByCategory(params.categoryId)
+interface Props {
+  params: Promise<{ categoryId: string }>
+}
+
+export default async function CategoryDetailPage({ params }: Props) {
+  const resolvedParams = await params
+  const words: Word[] = await fetchWordsByCategory(resolvedParams.categoryId)
 
   return (
     <main>
-      <div>CategoryDetailPage {params.categoryId}</div>
+      <div>CategoryDetailPage {resolvedParams.categoryId}</div>
       <ul>
         {words.map((word) => (
           <li key={word.id}>
