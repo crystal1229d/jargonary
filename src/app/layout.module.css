@@ -1,6 +1,6 @@
 .content {
   width: 1200px;
-  margin: 100px auto 100px auto;
+  margin: 100px auto 164px auto; /* Header와 Footer의 height 고려 */
 }
 
 @media (max-width: 1280px) {

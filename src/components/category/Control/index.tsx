@@ -1,10 +1,10 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import styles from './Control.module.css'
-import Switch from '@/components/common/Switch'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Switch from '@/components/common/Switch'
+import styles from './Control.module.css'
 
 interface Props {
   currentSort: 'name' | 'recent'
