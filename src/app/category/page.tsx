@@ -1,5 +1,3 @@
-import Image from 'next/image'
-import Link from 'next/link'
 import { fetchCategories } from '@/services/category'
 import { Category } from '@/types'
 
@@ -7,6 +5,7 @@ import Search from '@/components/category/Search'
 import Control from '@/components/category/Control'
 import CategoryItem from '@/components/category/CategoryItem'
 import styles from './page.module.css'
+import NoItem from '@/components/category/NoItem'
 
 interface Props {
   searchParams: Promise<{
@@ -25,32 +24,7 @@ export default async function CategoryPage({ searchParams }: Props) {
       <Control currentSort={sortBy} />
 
       {categories.length === 0 ? (
-        <div className={styles['empty-page']}>
-          <Image
-            src={`/assets/images/category_white.png`}
-            alt="category"
-            width="222"
-            height="156"
-            priority={true}
-          />
-          <p>No categories found</p>
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-
-          <Link href="/category/new">
-            <button className={styles.button}>Create</button>
-          </Link>
-        </div>
+        <NoItem />
       ) : (
         <ul className={styles['categories-list']}>
           {categories.map((category: Category) => (
