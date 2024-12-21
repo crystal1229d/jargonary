@@ -1,0 +1,78 @@
+.page {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 30px 0;
+
+  background-color: #f9f5f0; /* 따뜻한 아날로그 베이지 톤 */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
+  border-radius: 5px;
+  font-family: 'Georgia', serif; /* 아날로그적 서체 */
+}
+
+.profile-section {
+  text-align: center;
+  padding: 20px;
+}
+
+.profile-card {
+  width: 80%;
+  height: 250px;
+  margin: 0 auto;
+  padding: 15px;
+
+  display: grid;
+  grid-template-columns: 40% 60%;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #fff; /* 카드 배경 */
+  border: 1px solid #e3dcdc; /* 약간의 테두리 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  font-size: 18px;
+  color: #333;
+}
+
+.profile-image {
+  width: 180px;
+  height: 180px;
+  background-color: #ccc;
+  border-radius: 50%;
+}
+
+.buttons-section {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.buttons-section button {
+  background-color: #e6d8c3; /* 아날로그 감성의 부드러운 브라운 */
+  border: none;
+  border-radius: 6px;
+  color: #5c504a;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Georgia', serif;
+}
+
+.buttons-section button:hover {
+  background-color: #d4c4b4; /* 호버 시 더 진한 톤 */
+  transform: scale(1.05);
+}
+
+@media (max-width: 844px) {
+  .buttons-section {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .buttons-section button {
+    width: 80%;
+    margin-bottom: 10px;
+  }
+}

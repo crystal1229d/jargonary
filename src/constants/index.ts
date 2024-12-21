@@ -1,5 +1,9 @@
 export const NAVIGATION = [
   {
+    label: 'About',
+    link: '/about',
+  },
+  {
     label: 'Words',
     link: '/word',
   },

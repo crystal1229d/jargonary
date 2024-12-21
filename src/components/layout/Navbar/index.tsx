@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
+import Link from 'next/link'
 import { NAVIGATION } from '@/constants'
 import styles from './Navbar.module.css'
-import Link from 'next/link'
 
 export default function Navbar() {
   const location = usePathname()

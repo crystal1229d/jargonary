@@ -5,8 +5,8 @@ import { useRouter } from 'next/navigation'
 import { Category, NewCategoryForm } from '@/types'
 import EmojiHub from '@/components/newCategory/EmojiHub'
 import Preview from '@/components/newCategory/Preview'
-import styles from './Form.module.css'
 import { createCategory } from '@/services/category'
+import styles from './Form.module.css'
 
 interface Props {
   ColorPalette: Category['color'][]
