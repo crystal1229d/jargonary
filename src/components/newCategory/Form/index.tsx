@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation'
 import { Category, NewCategoryForm } from '@/types'
 import EmojiHub from '@/components/newCategory/EmojiHub'
 import Preview from '@/components/newCategory/Preview'
-import { createCategory } from '@/services/category'
 import styles from './Form.module.css'
 
 interface Props {
@@ -14,6 +13,7 @@ interface Props {
 
 export default function CategoryForm({ ColorPalette }: Props) {
   const router = useRouter()
+  const [loading, setLoading] = useState(false)
 
   const [name, setName] = useState<Category['name']>('')
   const [icon, setIcon] = useState<Category['icon']>('🍀')
@@ -29,15 +29,29 @@ export default function CategoryForm({ ColorPalette }: Props) {
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setLoading(true)
 
-    // API 호출 로직 추가
-    const newCategory: NewCategoryForm = {
-      name,
-      color,
-      icon,
+    const newCategory: NewCategoryForm = { name, color, icon }
+
+    try {
+      const response = await fetch('/api/category/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newCategory),
+      })
+
+      if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.message || 'Failed to create category')
+      }
+
+      router.push('/category')
+    } catch (error) {
+      console.error(error)
+      alert('Error creating category')
+    } finally {
+      setLoading(false)
     }
-
-    await createCategory(newCategory)
   }
 
   return (
@@ -70,7 +84,10 @@ export default function CategoryForm({ ColorPalette }: Props) {
                 type="button"
                 className={styles.colorCircle}
                 aria-label={colorOption}
-                onClick={() => handleColorChange(colorOption)}
+                onClick={(e) => {
+                  e.preventDefault()
+                  handleColorChange(colorOption)
+                }}
               >
                 <div
                   className={styles.color}
@@ -93,8 +110,9 @@ export default function CategoryForm({ ColorPalette }: Props) {
             type="submit"
             className={styles.createButton}
             style={{ backgroundColor: `var(--${color})` }}
+            disabled={loading}
           >
-            Create
+            {loading ? 'Creating...' : 'Create'}
           </button>
         </div>
       </form>

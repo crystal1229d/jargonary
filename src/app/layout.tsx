@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 
+import AuthObserver from '@/common/AuthObserver'
 import Header from '@/layout/Header'
 import Footer from '@/layout/Footer'
 import '@/styles/globals.css'
@@ -33,6 +34,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <AuthObserver />
         <Header />
         <div className={styles.content}>{children}</div>
         <Footer />

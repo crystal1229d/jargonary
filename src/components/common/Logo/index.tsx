@@ -17,7 +17,7 @@ export default function Logo({ linked = true, to = '/' }: Props) {
         alt="logo"
         width={204}
         height={37}
-        priority={true}
+        priority={false}
       />
       {/* <Image
         src="/assets/images/logo_1.png"

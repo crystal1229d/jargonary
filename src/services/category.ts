@@ -1,23 +1,29 @@
-import { supaBrowserClient } from '@/lib/supabase/client'
 import { CategoryDTO } from '@/dto/category'
 import { Category, NewCategoryForm } from '@/types'
+import { createClient } from '@/lib/supabase/server-client'
 
 export async function fetchCategories(
   sortBy: 'name' | 'recent',
 ): Promise<Category[]> {
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
   const orderBy =
     sortBy === 'name'
       ? { column: 'name', ascending: true }
       : { column: 'updated_at', ascending: true }
 
-  const { data, error } = await supaBrowserClient
+  const { data, error } = await supabase
     .from('category')
     .select('*')
+    .eq('user_id', user?.id)
     .order(orderBy.column, { ascending: orderBy.ascending })
     .range(0, 9)
 
   if (error) {
-    console.error('Error fetching categories:', error)
+    console.error('Error fetching category:', error)
     throw new Error('Failed to fetch categories')
   }
 
@@ -27,11 +33,17 @@ export async function fetchCategories(
 export async function createCategory(
   newCategory: NewCategoryForm,
 ): Promise<Category> {
-  const { data, error } = await supaBrowserClient
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  const { data, error } = await supabase
     .from('category')
     .insert({
-      dictionary_id: '23730136-cd9c-47f3-b9b6-861a405709212',
+      user_id: user?.id,
       ...newCategory,
+      word_count: 0,
     })
     .single()
 
@@ -47,10 +59,16 @@ export async function updateCategory(
   id: Pick<Category, 'id'>,
   updates: Partial<Category>,
 ): Promise<Category> {
-  const { data, error } = await supaBrowserClient
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  const { data, error } = await supabase
     .from('category')
     .update(updates)
     .eq('id', id)
+    .eq('user_id', user?.id)
     .single()
 
   if (error) {
@@ -62,10 +80,16 @@ export async function updateCategory(
 }
 
 export async function deleteCategory(id: Pick<Category, 'id'>): Promise<void> {
-  const { error } = await supaBrowserClient
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  const { error } = await supabase
     .from('category')
     .delete()
     .eq('id', id)
+    .eq('user_id', user?.id)
 
   if (error) {
     console.error('Error deleting category:', error)

@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/supabase/server-client'
 import { redirect } from 'next/navigation'
 import styles from './page.module.css'
 

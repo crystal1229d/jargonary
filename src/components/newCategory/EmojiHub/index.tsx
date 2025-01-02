@@ -20,7 +20,13 @@ export default function EmojiHub({ selectedEmoji, setSelectedEmoji }: Props) {
   return (
     <div className={styles.wrapper}>
       <div className={styles['search-btn']}>
-        <button onClick={handleClickSearch}>
+        <button
+          type="button"
+          onClick={(e) => {
+            e.preventDefault()
+            handleClickSearch()
+          }}
+        >
           <span>{selectedEmoji}</span>
         </button>
       </div>

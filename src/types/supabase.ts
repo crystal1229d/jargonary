@@ -7,129 +7,68 @@ export type Json =
   | Json[]
 
 export type Database = {
+  graphql_public: {
+    Tables: {
+      [_ in never]: never
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      graphql: {
+        Args: {
+          operationName?: string
+          query?: string
+          variables?: Json
+          extensions?: Json
+        }
+        Returns: Json
+      }
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
   public: {
     Tables: {
-      word: {
-        Row: {
-          id: string
-          dictionary_id: string
-          category_id: string
-          word: string
-          definition: string[]
-          jargon_definition: string[]
-          examples: string[]
-          synonyms: string[]
-          antonyms: string[]
-          related_words: string[]
-          is_marked: boolean
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id?: string
-          dictionary_id: string
-          category_id: string
-          word: string
-          definition?: string[] | null
-          jargon_definition?: string[] | null
-          examples?: string[] | null
-          synonyms?: string[] | null
-          antonyms?: string[] | null
-          related_words?: string[] | null
-          is_marked?: boolean
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          dictionary_id?: string
-          category_id?: string
-          word?: string
-          definition?: string[] | null
-          jargon_definition?: string[] | null
-          examples?: string[] | null
-          synonyms?: string[] | null
-          antonyms?: string[] | null
-          related_words?: string[] | null
-          is_marked?: boolean
-          created_at?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: 'fk_dictionary'
-            columns: ['dictionary_id']
-            isOneToOne: false
-            referencedRelation: 'dictionary'
-            referencedColumns: ['id']
-          },
-          {
-            foreignKeyName: 'fk_category'
-            columns: ['category_id']
-            isOneToOne: false
-            referencedRelation: 'category'
-            referencedColumns: ['id']
-          },
-        ]
-      }
       category: {
         Row: {
-          id: string
-          dictionary_id: string
-          name: string
           color: string
+          created_at: string
           icon: string
+          id: string
+          name: string
+          updated_at: string
+          user_id: string
           word_count: number
-          created_at: string
         }
         Insert: {
-          id?: string
-          dictionary_id: string
-          name: string
           color: string
+          created_at?: string
           icon: string
-          word_count?: number | null
-          created_at?: string
+          id?: string
+          name: string
+          updated_at?: string
+          user_id: string
+          word_count: number
         }
         Update: {
-          id?: string
-          dictionary_id?: string
-          name?: string
           color?: string
+          created_at?: string
           icon?: string
-          word_count?: number | null
-          created_at?: string
+          id?: string
+          name?: string
+          updated_at?: string
+          user_id?: string
+          word_count?: number
         }
         Relationships: [
           {
-            foreignKeyName: 'fk_dictionary'
-            columns: ['dictionary_id']
-            isOneToOne: false
-            referencedRelation: 'dictionary'
-            referencedColumns: ['id']
-          },
-        ]
-      }
-      dictionary: {
-        Row: {
-          created_at: string
-          id: string
-          profile_id: string
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          profile_id: string
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          profile_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: 'fk_profile'
-            columns: ['profile_id']
+            foreignKeyName: 'fk_auth_user'
+            columns: ['user_id']
             isOneToOne: false
             referencedRelation: 'profile'
             referencedColumns: ['id']
@@ -140,19 +79,139 @@ export type Database = {
         Row: {
           created_at: string
           email: string
+          first_name: string | null
           id: string
-          name: string
+          last_name: string | null
+          nickname: string | null
+          profile_img: string | null
         }
         Insert: {
           created_at?: string
           email: string
+          first_name?: string | null
           id?: string
-          name: string
+          last_name?: string | null
+          nickname?: string | null
+          profile_img?: string | null
         }
         Update: {
           created_at?: string
           email?: string
+          first_name?: string | null
           id?: string
+          last_name?: string | null
+          nickname?: string | null
+          profile_img?: string | null
+        }
+        Relationships: []
+      }
+      word: {
+        Row: {
+          category_id: string
+          created_at: string
+          definition: string[] | null
+          examples: string[] | null
+          id: string
+          is_marked: boolean | null
+          jargon_definition: string[] | null
+          updated_at: string
+          word: string
+        }
+        Insert: {
+          category_id: string
+          created_at?: string
+          definition?: string[] | null
+          examples?: string[] | null
+          id?: string
+          is_marked?: boolean | null
+          jargon_definition?: string[] | null
+          updated_at?: string
+          word: string
+        }
+        Update: {
+          category_id?: string
+          created_at?: string
+          definition?: string[] | null
+          examples?: string[] | null
+          id?: string
+          is_marked?: boolean | null
+          jargon_definition?: string[] | null
+          updated_at?: string
+          word?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'word_category_id_fkey'
+            columns: ['category_id']
+            isOneToOne: false
+            referencedRelation: 'category'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      word_relation: {
+        Row: {
+          created_at: string
+          id: string
+          related_word_id: string | null
+          relation_type_id: number
+          text_value: string | null
+          word_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          related_word_id?: string | null
+          relation_type_id: number
+          text_value?: string | null
+          word_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          related_word_id?: string | null
+          relation_type_id?: number
+          text_value?: string | null
+          word_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'fk_relation_type'
+            columns: ['relation_type_id']
+            isOneToOne: false
+            referencedRelation: 'word_relation_type'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'fk_word_relation_word'
+            columns: ['word_id']
+            isOneToOne: false
+            referencedRelation: 'word'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'word_relation_related_word_id_fkey'
+            columns: ['related_word_id']
+            isOneToOne: false
+            referencedRelation: 'word'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      word_relation_type: {
+        Row: {
+          created_at: string
+          id: number
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          name: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
           name?: string
         }
         Relationships: []

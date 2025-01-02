@@ -4,10 +4,16 @@ import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { NAVIGATION } from '@/constants'
+import { useUserStore } from '@/store/user'
+// import { signout } from '@/services/auth'
 import styles from './Navbar.module.css'
+import SignOutButton from '@/components/common/SignoutButton'
 
 export default function Navbar() {
   const location = usePathname()
+  const user = useUserStore((state) => state.user)
+
+  console.log('[Navbar] user : ', user)
 
   const currentPath = NAVIGATION.find(
     (nav) =>
@@ -27,6 +33,10 @@ export default function Navbar() {
     setSelectedNav(updatedPath ? updatedPath.label : '/')
   }, [location])
 
+  useEffect(() => {
+    console.log('[Navbar] user updated:', user)
+  }, [user])
+
   return (
     <nav className={styles.navbar}>
       <ul className={styles.navList}>
@@ -38,6 +48,18 @@ export default function Navbar() {
             <Link href={link}>{label}</Link>
           </li>
         ))}
+        {user ? (
+          // <li>
+          //   <button onClick={async () => await signout()}>Logout</button>
+          // </li>
+          <li>
+            <SignOutButton />
+          </li>
+        ) : (
+          <li>
+            <Link href="/signin">Login</Link>
+          </li>
+        )}
       </ul>
     </nav>
   )
