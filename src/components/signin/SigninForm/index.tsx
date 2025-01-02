@@ -3,7 +3,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useUserStore } from '@/store/user'
+import { signin, signup } from '@/utils/auth'
 import styles from './SigninForm.module.css'
 
 export default function SignInForm() {
@@ -11,53 +11,18 @@ export default function SignInForm() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
-  const setUser = useUserStore((state) => state.setUser)
 
   const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setError(null)
-
-    try {
-      const res = await fetch('/api/auth/signin', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      })
-
-      if (!res.ok) {
-        const error = await res.json()
-        throw new Error(error.message || 'Failed to sign in')
-      }
-
-      const { user } = await res.json()
-      setUser({ id: user.id, email: user.email })
+    await signin(email, password, setError, () => {
       router.push('/')
-    } catch (error: any) {
-      setError(error.message)
-    }
+    })
   }
 
   const handleSignUp = async () => {
-    setError(null)
-
-    try {
-      const res = await fetch('/api/auth/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      })
-
-      if (!res.ok) {
-        const error = await res.json()
-        throw new Error(error.message || 'Failed to sign up')
-      }
-
-      const { user } = await res.json()
-      setUser({ id: user.id, email: user.email })
+    await signup(email, password, setError, () => {
       router.push('/')
-    } catch (error: any) {
-      setError(error.message)
-    }
+    })
   }
 
   return (
