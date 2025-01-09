@@ -1,24 +1,38 @@
+import { WordWithDetails } from '@/types'
 import { fetchWords } from '@/services/word'
-import { Word } from '@/types'
+import Search from '@/components/common/Search'
+import WordItem from '@/components/word/WordItem'
+import NoItem from '@/components/common/NoItem'
 import styles from './page.module.css'
 
-export default async function WordPage() {
-  const words: Word[] = await fetchWords()
+interface Props {
+  searchParams: Promise<{
+    sort_by?: 'name' | 'recent'
+  }>
+}
 
+export default async function WordPage({ searchParams }: Props) {
+  const params = await searchParams
+  const sortBy = params.sort_by || 'name'
+  const words: WordWithDetails[] = await fetchWords(sortBy)
+  console.log(words)
   return (
     <main className={styles.page}>
-      <div className={styles.search}>
-        <button>Search</button>
-        <input type="text" />
+      <Search />
+      <div>
+        <button>Sort By</button>
+        <button>Filter</button>
       </div>
 
-      <ul className={styles['words-list']}>
-        {words.map((word: Word) => (
-          <li key={word.id}>
-            {word.word} - {word.definition[0]}
-          </li>
-        ))}
-      </ul>
+      {words.length === 0 ? (
+        <NoItem />
+      ) : (
+        <ul className={styles['words-list']}>
+          {words.map((word: WordWithDetails) => (
+            <WordItem key={word.id} word={word} />
+          ))}
+        </ul>
+      )}
     </main>
   )
 }

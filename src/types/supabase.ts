@@ -43,7 +43,7 @@ export type Database = {
           name: string
           updated_at: string
           user_id: string
-          word_count: number
+          word_count: number | null
         }
         Insert: {
           color: string
@@ -53,7 +53,7 @@ export type Database = {
           name: string
           updated_at?: string
           user_id: string
-          word_count: number
+          word_count?: number | null
         }
         Update: {
           color?: string
@@ -63,7 +63,7 @@ export type Database = {
           name?: string
           updated_at?: string
           user_id?: string
-          word_count?: number
+          word_count?: number | null
         }
         Relationships: [
           {
@@ -149,39 +149,32 @@ export type Database = {
           },
         ]
       }
-      word_relation: {
+      word_link: {
         Row: {
           created_at: string
           id: string
-          related_word_id: string | null
-          relation_type_id: number
+          link_type_id: number
+          linked_word_id: string | null
           text_value: string | null
           word_id: string
         }
         Insert: {
           created_at?: string
           id?: string
-          related_word_id?: string | null
-          relation_type_id: number
+          link_type_id: number
+          linked_word_id?: string | null
           text_value?: string | null
           word_id: string
         }
         Update: {
           created_at?: string
           id?: string
-          related_word_id?: string | null
-          relation_type_id?: number
+          link_type_id?: number
+          linked_word_id?: string | null
           text_value?: string | null
           word_id?: string
         }
         Relationships: [
-          {
-            foreignKeyName: 'fk_relation_type'
-            columns: ['relation_type_id']
-            isOneToOne: false
-            referencedRelation: 'word_relation_type'
-            referencedColumns: ['id']
-          },
           {
             foreignKeyName: 'fk_word_relation_word'
             columns: ['word_id']
@@ -190,15 +183,22 @@ export type Database = {
             referencedColumns: ['id']
           },
           {
-            foreignKeyName: 'word_relation_related_word_id_fkey'
-            columns: ['related_word_id']
+            foreignKeyName: 'word_link_link_type_id_fkey'
+            columns: ['link_type_id']
+            isOneToOne: false
+            referencedRelation: 'word_link_type'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'word_link_linked_word_id_fkey'
+            columns: ['linked_word_id']
             isOneToOne: false
             referencedRelation: 'word'
             referencedColumns: ['id']
           },
         ]
       }
-      word_relation_type: {
+      word_link_type: {
         Row: {
           created_at: string
           id: number

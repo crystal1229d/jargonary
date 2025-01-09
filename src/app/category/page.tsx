@@ -1,10 +1,10 @@
 import { fetchCategories } from '@/services/category'
 import { Category } from '@/types'
 
-import Search from '@/components/category/Search'
+import Search from '@/components/common/Search'
 import Control from '@/components/category/Control'
 import CategoryItem from '@/components/category/CategoryItem'
-import NoItem from '@/components/category/NoItem'
+import NoItem from '@/components/common/NoItem'
 import styles from './page.module.css'
 
 interface Props {
