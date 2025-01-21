@@ -1,13 +1,57 @@
 .wrapper {
   width: 100%;
-  min-height: 150px;
-  padding: 5px 10px;
-
+  padding: 10px 15px;
+  margin-bottom: 15px;
   border: 2px solid black;
   border-radius: 12px;
+  background-color: #f9f9f9;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .word {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   font-weight: bold;
+  color: #333;
+}
+
+.actions button {
+  margin-left: 10px;
+  font-size: 0.8rem;
+  color: var(--light-gray);
+  cursor: pointer;
+}
+
+.definition {
+  margin: 5px 0;
+  color: #555;
+}
+
+.category {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: #777;
+}
+
+.mark {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.example {
+  font-size: 0.95rem;
+  color: #666;
+}
+
+.memo {
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  font-size: 0.8rem;
 }

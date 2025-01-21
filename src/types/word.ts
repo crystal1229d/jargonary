@@ -1,7 +1,7 @@
-import { Category } from './category'
 import { Database } from './supabase'
+import { Category } from './category'
 
-export type WordRaw = Database['public']['Tables']['word']['Row']
+export type WordRow = Database['public']['Tables']['word']['Row']
 
 export interface Word {
   id: string
@@ -10,6 +10,8 @@ export interface Word {
   jargonDefinition: string[]
   isMarked: boolean
   examples: string[]
+  phoneticAlphabet: string
+  memo: string[]
   createdAt: string
   updatedAt: string
 }
@@ -17,7 +19,7 @@ export interface Word {
 export interface WordLinkType {
   id: string
   name: string
-  createdAt: string
+  color: string
 }
 
 export interface WordLink {
@@ -26,15 +28,18 @@ export interface WordLink {
   linkedWordId: Word['id']
   linkTypeId: WordLinkType['id']
   textValue?: string | null
-  createdAt: string
+  linkedWord?: Pick<Word, 'id' | 'word' | 'definition'> | null
 }
 
 export interface WordWithDetails extends Word {
   category?: Pick<Category, 'id' | 'name' | 'color' | 'icon'> | null
-  linkedWords?: Array<{
-    id: WordLink['id']
-    linkedWordId: WordLink['linkedWordId']
-    linkTypeName?: WordLinkType['name']
-    textValue?: WordLink['textValue']
-  }>
+  linkedWords?: LinkedWord[]
+}
+
+export interface LinkedWord {
+  id: WordLink['id']
+  linkTypeName?: WordLinkType['name']
+  linkTypeColor?: WordLinkType['color']
+  linkedWord?: Pick<Word, 'id' | 'word' | 'definition'>
+  textValue?: WordLink['textValue']
 }

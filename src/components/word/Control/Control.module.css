@@ -1,0 +1,52 @@
+.control {
+  max-width: 706px; /* Category : 222 * 3 + 20 * 2 */
+  margin: 0 auto 40px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Switch */
+.switch {
+  width: 160px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.message {
+  display: flex;
+  flex-direction: column;
+  line-height: 0.98;
+}
+.message > span:nth-child(1) {
+  color: gray;
+  font-size: 0.7rem;
+  font-weight: 200;
+}
+.message > span:nth-child(2) {
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+/* Button */
+.button {
+  padding: 3px 20px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border: 2px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+  background: var(--yellow);
+  /* background: yellow; */
+}
+.button:hover {
+  transform: scale(1.015);
+}
+
+@media (max-width: 844px) {
+  .control {
+    max-width: 464px; /* 222 * 2 + 20 * 1 */
+  }
+}

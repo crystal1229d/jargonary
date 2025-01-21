@@ -15,84 +15,30 @@ export async function fetchWords(
       ? { column: 'word', ascending: true }
       : { column: 'updated_at', ascending: true }
 
-  const wordWithDetailsQuery = supabase
-    .from('word')
-    .select(
-      `
-        id,
-        word,
-        definition,
-        jargon_definition,
-        examples,
-        is_marked,
-        created_at,
-        updated_at,
-        category:category!word_category_id_fkey (
-          id,
-          name,
-          color,
-          icon
-        ),
-        word_links:word_link!fk_word_relation_word (
-          id,
-          linked_word_id,
-          text_value,
-          link_type:word_link_type (
-            id,
-            name
-          )
-        )
-      `,
-    )
-    .eq('category.user_id', user?.id)
-    .order(orderBy.column, { ascending: orderBy.ascending })
-
-  // type WordWithDetailsResult = QueryData<typeof wordWithDetailsQuery>
-
-  const { data, error } = await wordWithDetailsQuery
+  const { data, error } = await supabase.rpc('fetch_words', {
+    user_id: user?.id,
+    order_by_column: orderBy.column,
+    is_ascending: orderBy.ascending,
+  })
 
   if (error) {
-    console.error('Error fetching categories with words:', error)
     throw new Error('Failed to fetch categories with words')
   }
 
   if (!data) {
-    console.warn('No data found for the query')
     return []
   }
 
-  const wordWithDetails: WordWithDetails[] = data.map((word) => ({
-    id: word.id,
-    word: word.word,
-    definition: word.definition || [],
-    jargonDefinition: word.jargon_definition || [],
-    examples: word.examples || [],
-    isMarked: word.is_marked || false,
-    createdAt: word.created_at,
-    updatedAt: word.updated_at,
-    category:
-      Array.isArray(word.category) && word.category.length > 0
-        ? {
-            id: word.category[0].id,
-            name: word.category[0].name,
-            color: word.category[0].color,
-            icon: word.category[0].icon,
-          }
-        : null,
-    linkedWords: Array.isArray(word.word_links)
-      ? word.word_links.map((link) => ({
-          id: link.id,
-          linkedWordId: link.linked_word_id,
-          linkTypeName:
-            Array.isArray(link.link_type) && link.link_type.length > 0
-              ? link.link_type[0].name
-              : undefined,
-          textValue: link.text_value || '',
-        }))
-      : [],
-  }))
-
-  // console.log('wordWithDetails:', wordWithDetails)
+  const wordWithDetails: WordWithDetails[] = data.map(
+    (word: WordWithDetails) => ({
+      ...word,
+      category: word.category || null,
+      linkedWords: word.linkedWords?.map((link) => ({
+        ...link,
+        linkedWord: link.linkedWord || null,
+      })),
+    }),
+  )
 
   return wordWithDetails
 }

@@ -1,0 +1,23 @@
+.wrapper {
+  margin-top: 10px;
+}
+
+.linkedWord {
+  margin: 5px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  font-size: 0.8rem;
+  color: var(--gray);
+}
+
+.badge {
+  padding: 1px 8px;
+  display: inline-block;
+
+  font-weight: bold;
+  font-size: 0.7rem;
+  color: var(--white);
+  border-radius: 5px;
+}

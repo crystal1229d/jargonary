@@ -21,7 +21,7 @@ export const NAVIGATION = [
   },
 ]
 
-export const ColorPalette = [
+export const COLOR_PALETTE = [
   'white',
   'pink',
   'green',
