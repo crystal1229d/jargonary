@@ -1,40 +1,60 @@
 .wrapper {
   width: 100%;
+  height: fit-content;
   padding: 10px 15px;
   margin-bottom: 15px;
+
   border: 2px solid black;
   border-radius: 12px;
-  background-color: #f9f9f9;
+  /* background-color: #f9f9f9; */
 }
 
 .header {
+  margin-bottom: 5px;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
+.actions button {
+  margin-left: 10px;
+  color: var(--light-gray);
+
+  cursor: pointer;
+  transition: transform 0.3s ease, color 0.3s ease;
+
+  &:hover {
+    transform: scale(1.1);
+    color: var(--gray);
+  }
+}
+.actions button svg {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+.actions button svg.marked {
+  color: var(--red-shadow);
+}
+
 .word {
-  font-size: 1.6rem;
+  font-size: 1.7rem;
   font-weight: bold;
   color: #333;
 }
 
-.actions button {
-  margin-left: 10px;
-  font-size: 0.8rem;
-  color: var(--light-gray);
-  cursor: pointer;
+.phonetic {
+  font-size: 0.95rem;
+  color: var(--gray);
 }
 
 .definition {
-  margin: 5px 0;
-  color: #555;
-}
+  margin: 5px 0 1rem 20px;
+  padding: 0;
 
-.category {
-  font-size: 0.9rem;
-  font-style: italic;
-  color: #777;
+  list-style: decimal;
+  color: var(--gray);
+  font-size: 0.95rem;
 }
 
 .mark {
@@ -43,8 +63,8 @@
 }
 
 .example {
-  font-size: 0.95rem;
-  color: #666;
+  font-size: 0.9rem;
+  color: var(--gray);
 }
 
 .memo {
@@ -54,4 +74,5 @@
   border-radius: 8px;
   background-color: #fff;
   font-size: 0.8rem;
+  color: var(--gray);
 }

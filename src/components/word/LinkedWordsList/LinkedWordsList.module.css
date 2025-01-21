@@ -16,8 +16,9 @@
   padding: 1px 8px;
   display: inline-block;
 
-  font-weight: bold;
+  font-weight: 600;
   font-size: 0.7rem;
-  color: var(--white);
+  color: black;
+  border: 1px solid var(--gray);
   border-radius: 5px;
 }

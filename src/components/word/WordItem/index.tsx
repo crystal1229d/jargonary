@@ -1,9 +1,10 @@
 import { WordWithDetails } from '@/types'
-import styles from './WordItem.module.css'
 import LinkedWordsList from '../LinkedWordsList'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrash } from '@fortawesome/free-solid-svg-icons/faTrash'
-import { faPen } from '@fortawesome/free-solid-svg-icons/faPen'
+import { faTrash, faPen, faBookmark } from '@fortawesome/free-solid-svg-icons'
+
+import styles from './WordItem.module.css'
+import CategoryBadge from '../CategoryBadge'
 
 interface Props {
   word: WordWithDetails
@@ -13,41 +14,55 @@ export default function WordItem({ word }: Props) {
   return (
     <li key={word.id} className={styles.wrapper}>
       <div className={styles.header}>
-        <p className={styles.word}>{word.word}</p>
+        <CategoryBadge category={word.category} />
+
         <div className={styles.actions}>
           <button>
-            <FontAwesomeIcon icon={faPen} width="1rem" height="1rem" />
+            <FontAwesomeIcon
+              icon={faBookmark}
+              className={word.isMarked ? styles.marked : ''}
+            />
           </button>
           <button>
-            <FontAwesomeIcon icon={faTrash} width="1rem" height="1rem" />
+            <FontAwesomeIcon icon={faPen} />
+          </button>
+          <button>
+            <FontAwesomeIcon icon={faTrash} />
           </button>
         </div>
       </div>
 
-      {word.phoneticAlphabet && <p>[{word.phoneticAlphabet}]</p>}
-      <p className={styles.definition}>
-        {word.definition?.join(', ') || 'No definition'}
-      </p>
-      <p className={styles.definition}>
-        {word.jargonDefinition?.join(', ') || 'No jargon definition'}
-      </p>
+      <p className={styles.word}>{word.word}</p>
 
-      <p className={styles.category}>
-        Category: {word.category?.name || 'Uncategorized'}
-      </p>
-      <p className={styles.mark}>{word.isMarked ? '⭐ Marked' : ''}</p>
+      {word.phoneticAlphabet && (
+        <p className={styles.phonetic}>[{word.phoneticAlphabet}]</p>
+      )}
 
-      {word.examples?.map((example, index) => (
-        <p key={index} className={styles.example}>
-          {example}
-        </p>
-      ))}
+      <ol className={styles.definition}>
+        {word.jargonDefinition?.map((def, index) => (
+          <li key={index}>{def}</li>
+        ))}
+      </ol>
 
-      <hr />
+      <ul>
+        {word.examples?.map((example, index) => (
+          <li key={index} className={styles.example}>
+            {example}
+          </li>
+        ))}
+      </ul>
+
+      {(word.linkedWords || word.memo) && <hr />}
+
+      <ol className={styles.definition}>
+        {word.definition?.map((def, index) => (
+          <li key={index}>{def}</li>
+        ))}
+      </ol>
 
       <LinkedWordsList linkedWords={word.linkedWords || []} />
 
-      <div className={styles.memo}>{word.memo}</div>
+      {word.memo && <div className={styles.memo}>{word.memo}</div>}
     </li>
   )
 }
