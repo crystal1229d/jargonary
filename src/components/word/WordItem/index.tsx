@@ -5,6 +5,7 @@ import { faTrash, faPen, faBookmark } from '@fortawesome/free-solid-svg-icons'
 
 import styles from './WordItem.module.css'
 import CategoryBadge from '../CategoryBadge'
+import ExamplesList from '../ExamplesList'
 
 interface Props {
   word: WordWithDetails
@@ -38,21 +39,15 @@ export default function WordItem({ word }: Props) {
         <p className={styles.phonetic}>[{word.phoneticAlphabet}]</p>
       )}
 
-      <ol className={styles.definition}>
+      <ol className={styles.jargonDefinition}>
         {word.jargonDefinition?.map((def, index) => (
           <li key={index}>{def}</li>
         ))}
       </ol>
 
-      <ul>
-        {word.examples?.map((example, index) => (
-          <li key={index} className={styles.example}>
-            {example}
-          </li>
-        ))}
-      </ul>
+      <ExamplesList examples={word.examples} />
 
-      {(word.linkedWords || word.memo) && <hr />}
+      {word.linkedWords && <hr />}
 
       <ol className={styles.definition}>
         {word.definition?.map((def, index) => (

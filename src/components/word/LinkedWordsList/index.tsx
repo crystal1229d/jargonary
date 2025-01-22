@@ -6,6 +6,8 @@ interface Props {
 }
 
 export default function LinkedWordsList({ linkedWords }: Props) {
+  if (!linkedWords || linkedWords.length === 0) return null
+
   return (
     <ul className={styles.wrapper}>
       {linkedWords?.map((linkedWord) => (

@@ -1,0 +1,18 @@
+.page {
+  width: 100%;
+  max-width: 500px;
+  min-height: 500px;
+  margin: 0 auto;
+  padding: 2rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  font-family: 'Times New Roman', Times, serif;
+  margin-right: auto;
+  font-size: 1.7rem;
+  margin-bottom: 1.5rem;
+}

@@ -1,0 +1,24 @@
+.list {
+  margin-bottom: 0.8rem;
+}
+
+.list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.badge {
+  width: 0.3rem;
+  height: 0.3rem;
+
+  font-size: 0.68rem;
+  background-color: var(--gray);
+  border-radius: 50%;
+}
+
+.list p {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: var(--gray);
+}

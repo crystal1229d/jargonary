@@ -27,6 +27,8 @@
   --black-shadow: #aaa8a8;
   --orange-shadow: #e4a264;
   --red-shadow: #e0655c;
+
+  --blue-point: #2071ef;
 }
 
 @media (prefers-color-scheme: dark) {
