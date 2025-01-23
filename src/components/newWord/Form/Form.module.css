@@ -1,11 +1,12 @@
 .form {
   width: 100%;
-  margin-top: 30px;
+  margin-top: 15px;
 
   display: grid;
   gap: 2rem;
 }
 
+/* Text Input */
 .formGroup {
   display: flex;
   flex-direction: column;
@@ -14,60 +15,74 @@
 .formGroup label {
   font-weight: bold;
 }
-.formGroup input {
+.formGroup input,
+.formGroup textarea {
   padding: 0.5rem;
   border: 1px solid #eaeaea;
   border-radius: 4px;
 }
 
-.selector {
+/* Select & Options */
+.formGroup select {
+  min-height: 42px;
   padding: 0.5rem;
-  border: 1px solid #ccc;
+  border: 1px solid #eaeaea;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: black;
+  cursor: pointer;
+}
+.formGroup select:focus {
+  outline: 2px solid black;
+}
+.formGroup select option {
+  padding: 0.5rem;
+  font-size: 1rem;
+  color: black;
+  cursor: pointer;
+}
+.formGroup select option:hover {
+  background-color: #f1f1f1;
+}
+
+/* Dynamic Fields */
+.dynamicFields > button {
+  margin-right: auto;
+  background: var(--green-shadow);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
   border-radius: 4px;
   cursor: pointer;
-  text-align: center;
-  background-color: #f9f9f9;
+}
+.dynamicFields > button:hover {
+  filter: brightness(0.85);
 }
 
-.colorOptions {
-  width: 100%;
-  display: grid;
-  align-items: center;
-  grid-template-columns: repeat(5, 20%);
-  grid-template-rows: 40px;
-  row-gap: 15px;
-
-  /* border: 1px solid #eaeaea;
-  border-radius: 8px;
-  padding: 10px; */
-}
-
-.colorCircle {
-  width: 40px;
-  height: 40px;
+.dynamicField {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
 
-  border: 1px solid #eaeaea;
-  border-radius: 50%;
+.dynamicField input {
+  flex: 1;
+}
+
+.dynamicField button {
+  background: #f44336;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
   cursor: pointer;
-  transition: transform 0.2s, border-color 0.2s;
 }
-.colorCircle:hover {
-  transform: scale(1.05);
-  border: 1px solid #bdbdbd;
-}
-.colorCircle:active {
-  border: 1px solid #bdbdbd;
-}
-.colorCircle .color {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid #eaeaea;
+.dynamicField button:hover {
+  filter: brightness(0.85);
 }
 
+/* Buttons */
 .buttonGroup {
   margin-top: 30px;
   display: flex;
@@ -84,9 +99,10 @@
 
   cursor: pointer;
   transition: transform 0.2s, border-color 0.2s;
-}
-.cancelButton:hover {
-  transform: scale(1.03);
+
+  &:hover {
+    transform: scale(1.03);
+  }
 }
 
 .createButton {
@@ -98,8 +114,9 @@
 
   cursor: pointer;
   transition: transform 0.2s, border-color 0.2s;
-}
-.createButton:hover {
-  transform: scale(1.03);
-  background-color: var(--yellow);
+
+  &:hover {
+    transform: scale(1.03);
+    background-color: var(--yellow);
+  }
 }

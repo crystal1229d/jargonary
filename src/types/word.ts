@@ -10,7 +10,7 @@ export interface Word {
   jargonDefinition: string[]
   isMarked: boolean
   examples: string[]
-  phoneticAlphabet: string
+  ipa: string
   memo: string[]
   createdAt: string
   updatedAt: string

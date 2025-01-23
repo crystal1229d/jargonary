@@ -35,9 +35,7 @@ export default function WordItem({ word }: Props) {
 
       <p className={styles.word}>{word.word}</p>
 
-      {word.phoneticAlphabet && (
-        <p className={styles.phonetic}>[{word.phoneticAlphabet}]</p>
-      )}
+      {word.ipa && <p className={styles.ipa}>[{word.ipa}]</p>}
 
       <ol className={styles.jargonDefinition}>
         {word.jargonDefinition?.map((def, index) => (
