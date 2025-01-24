@@ -2,7 +2,7 @@
 
 import { Dispatch, SetStateAction, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Category } from '@/types'
+import { Category, WordLinkType } from '@/types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
 
@@ -10,14 +10,21 @@ import styles from './Form.module.css'
 
 interface Props {
   categories: Category[] | []
+  wordLinkTypes: WordLinkType[]
 }
 
-export default function WordForm({ categories }: Props) {
+export default function WordForm({ categories, wordLinkTypes }: Props) {
   const router = useRouter()
 
   const [definitions, setDefinitions] = useState<string[]>([''])
   const [jargondefinitions, setJargonDefinitions] = useState<string[]>([''])
   const [examples, setExamples] = useState<string[]>([''])
+  const [linkedWords, setLinkedwords] = useState<
+    { type: WordLinkType; value: string }[]
+  >([])
+
+  const [showLinkedWordTypePicker, setShowLinkedWordTypePicker] =
+    useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
 
   const handleAddField = (setter: Dispatch<SetStateAction<string[]>>) => {
@@ -25,18 +32,36 @@ export default function WordForm({ categories }: Props) {
   }
 
   const handleRemoveField = (
-    index: number,
+    idx: number,
     setter: Dispatch<SetStateAction<string[]>>,
   ) => {
-    setter((prev) => prev.filter((_, i) => i !== index))
+    setter((prev) => prev.filter((_, i) => i !== idx))
   }
 
   const handleInputChange = (
-    index: number,
+    idx: number,
     value: string,
     setter: Dispatch<SetStateAction<string[]>>,
   ) => {
-    setter((prev) => prev.map((item, i) => (i === index ? value : item)))
+    setter((prev) => prev.map((item, i) => (i === idx ? value : item)))
+  }
+
+  const handleAddLinkedWord = (type: WordLinkType) => {
+    setLinkedwords([...linkedWords, { type, value: '' }])
+  }
+
+  const handleRemoveLinkedWord = (idx: number) => {
+    setLinkedwords((prev) => prev.filter((_, i) => i !== idx))
+  }
+
+  const handleLinkedWordChange = (
+    idx: number,
+    value: string,
+    setter: Dispatch<SetStateAction<{ type: WordLinkType; value: string }[]>>,
+  ) => {
+    setter((prev) =>
+      prev.map((item, i) => (i === idx ? { ...item, value } : item)),
+    )
   }
 
   const handleSubmit = () => {
@@ -146,10 +171,59 @@ export default function WordForm({ categories }: Props) {
         </button>
       </div>
 
-      <div className={styles.formGroup}>
+      <div className={`${styles.formGroup} ${styles.dynamicFields}`}>
+        <label>LinkedWords</label>
+        {linkedWords.map((linkedWord, index) => (
+          <div key={index} className={styles.dynamicField}>
+            <span
+              className={styles.linkedWordType}
+              style={{ backgroundColor: linkedWord.type.color }}
+            >
+              {linkedWord.type.name}
+            </span>
+            <input
+              type="text"
+              value={linkedWord.value}
+              onChange={(e) =>
+                handleLinkedWordChange(index, e.target.value, setLinkedwords)
+              }
+              placeholder="linkedWord value"
+            />
+            <button type="button" onClick={() => handleRemoveLinkedWord(index)}>
+              <FontAwesomeIcon icon={faMinus} />
+            </button>
+          </div>
+        ))}
+        <button type="button" onClick={() => setShowLinkedWordTypePicker(true)}>
+          <FontAwesomeIcon icon={faPlus} />
+        </button>
+      </div>
+
+      {/* LinkedWord Type Picker Modal */}
+      {showLinkedWordTypePicker && (
+        <div className={styles.linkedWordPicker}>
+          <h3>Select LinkedWord Type</h3>
+          <ul>
+            {wordLinkTypes.map((type) => (
+              <li
+                key={type.id}
+                style={{ color: type.color, cursor: 'pointer' }}
+                onClick={() => handleAddLinkedWord(type)}
+              >
+                {type.name}
+              </li>
+            ))}
+          </ul>
+          <button onClick={() => setShowLinkedWordTypePicker(false)}>
+            Cancel
+          </button>
+        </div>
+      )}
+
+      {/* <div className={styles.formGroup}>
         <label htmlFor="linkedWord">LinkedWord</label>
         <input type="text" placeholder="linkedWord" required />
-      </div>
+      </div> */}
 
       <div className={styles.formGroup}>
         <label htmlFor="memo">Memo</label>

@@ -82,6 +82,53 @@
   filter: brightness(0.85);
 }
 
+/* Linked Words */
+.linkedWordPicker {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border: 1px solid #eaeaea;
+  border-radius: 8px;
+  padding: 1rem;
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.linkedWordPicker h3 {
+  margin-bottom: 1rem;
+}
+
+.linkedWordPicker ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
+}
+
+.linkedWordPicker ul li {
+  padding: 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.linkedWordPicker ul li:hover {
+  background-color: #f1f1f1;
+}
+
+.linkedWordPicker button {
+  display: block;
+  margin: 0 auto;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #888;
+  color: white;
+  cursor: pointer;
+}
+
 /* Buttons */
 .buttonGroup {
   margin-top: 30px;

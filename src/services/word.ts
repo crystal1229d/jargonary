@@ -1,6 +1,6 @@
 import { WordDTO } from '@/dto/word'
 import { createClient } from '@/lib/supabase/server-client'
-import { Word, WordWithDetails } from '@/types'
+import { Word, WordLinkType, WordWithDetails } from '@/types'
 
 export async function fetchWords(
   sortBy: 'name' | 'recent',
@@ -65,4 +65,18 @@ export async function fetchWordsByCategory(
   }
 
   return (data || []).map(WordDTO.fromSnakeCase)
+}
+
+export async function fetchWordLinkTypes(): Promise<WordLinkType[]> {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('word_link_type')
+    .select('*')
+    .order('id', { ascending: true })
+
+  if (error) {
+    throw new Error('Failed to fetch Word Link Types')
+  }
+
+  return data
 }
