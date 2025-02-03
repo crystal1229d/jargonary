@@ -33,6 +33,7 @@ export async function fetchWords(
     (word: WordWithDetails) => ({
       ...word,
       category: word.category || null,
+      definition: word.definition || [],
       linkedWords: word.linkedWords?.map((link) => ({
         ...link,
         linkedWord: link.linkedWord || null,

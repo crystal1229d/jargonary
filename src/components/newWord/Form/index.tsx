@@ -4,7 +4,7 @@ import { Dispatch, SetStateAction, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Category, WordLinkType } from '@/types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 import styles from './Form.module.css'
 
@@ -17,7 +17,6 @@ export default function WordForm({ categories, wordLinkTypes }: Props) {
   const router = useRouter()
 
   const [definitions, setDefinitions] = useState<string[]>([''])
-  const [jargondefinitions, setJargonDefinitions] = useState<string[]>([''])
   const [examples, setExamples] = useState<string[]>([''])
   const [linkedWords, setLinkedwords] = useState<
     { type: WordLinkType; value: string }[]
@@ -85,63 +84,37 @@ export default function WordForm({ categories, wordLinkTypes }: Props) {
 
       <div className={styles.formGroup}>
         <label htmlFor="word">Word</label>
-        <input type="text" placeholder="word" required />
+        <input type="text" placeholder="bug" required />
       </div>
 
       <div className={styles.formGroup}>
         <label htmlFor="ipa">IPA</label>
-        <input type="text" placeholder="ipa" required />
+        <input type="text" placeholder="bʌɡ" required />
       </div>
 
       <div className={`${styles.formGroup} ${styles.dynamicFields}`}>
         <label>Definition</label>
         {definitions.map((definition, index) => (
           <div key={index} className={styles.dynamicField}>
+            <p>{index + 1}</p>
             <input
               type="text"
               value={definition}
               onChange={(e) =>
                 handleInputChange(index, e.target.value, setDefinitions)
               }
-              placeholder="definition"
+              placeholder="버그"
             />
             <button
               type="button"
+              className={styles.deleteBtn}
               onClick={() => handleRemoveField(index, setDefinitions)}
             >
-              <FontAwesomeIcon icon={faMinus} />
+              <FontAwesomeIcon icon={faTrash} />
             </button>
           </div>
         ))}
         <button type="button" onClick={() => handleAddField(setDefinitions)}>
-          <FontAwesomeIcon icon={faPlus} />
-        </button>
-      </div>
-
-      <div className={`${styles.formGroup} ${styles.dynamicFields}`}>
-        <label>Jargon Definition</label>
-        {jargondefinitions.map((jDefinition, index) => (
-          <div key={index} className={styles.dynamicField}>
-            <input
-              type="text"
-              value={jDefinition}
-              onChange={(e) =>
-                handleInputChange(index, e.target.value, setJargonDefinitions)
-              }
-              placeholder="definition"
-            />
-            <button
-              type="button"
-              onClick={() => handleRemoveField(index, setJargonDefinitions)}
-            >
-              <FontAwesomeIcon icon={faMinus} />
-            </button>
-          </div>
-        ))}
-        <button
-          type="button"
-          onClick={() => handleAddField(setJargonDefinitions)}
-        >
           <FontAwesomeIcon icon={faPlus} />
         </button>
       </div>
@@ -156,13 +129,14 @@ export default function WordForm({ categories, wordLinkTypes }: Props) {
               onChange={(e) =>
                 handleInputChange(index, e.target.value, setExamples)
               }
-              placeholder="definition"
+              placeholder="I'll fix the bug."
             />
             <button
               type="button"
+              className={styles.deleteBtn}
               onClick={() => handleRemoveField(index, setExamples)}
             >
-              <FontAwesomeIcon icon={faMinus} />
+              <FontAwesomeIcon icon={faTrash} />
             </button>
           </div>
         ))}
@@ -189,8 +163,12 @@ export default function WordForm({ categories, wordLinkTypes }: Props) {
               }
               placeholder="linkedWord value"
             />
-            <button type="button" onClick={() => handleRemoveLinkedWord(index)}>
-              <FontAwesomeIcon icon={faMinus} />
+            <button
+              type="button"
+              className={styles.deleteBtn}
+              onClick={() => handleRemoveLinkedWord(index)}
+            >
+              <FontAwesomeIcon icon={faTrash} />
             </button>
           </div>
         ))}
@@ -227,7 +205,12 @@ export default function WordForm({ categories, wordLinkTypes }: Props) {
 
       <div className={styles.formGroup}>
         <label htmlFor="memo">Memo</label>
-        <textarea id="memo" placeholder="memo" required rows={5} />
+        <textarea
+          id="memo"
+          placeholder="A bug is an error that prevents an app or website from operating the way it’s supposed to. This is one of the most common web development terms you’ll hear."
+          required
+          rows={5}
+        />
       </div>
 
       <div className={styles.buttonGroup}>

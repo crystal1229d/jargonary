@@ -109,33 +109,33 @@ export type Database = {
         Row: {
           category_id: string
           created_at: string
-          definition: string[] | null
           examples: string[] | null
           id: string
+          ipa: string | null
           is_marked: boolean | null
-          jargon_definition: string[] | null
+          memo: string | null
           updated_at: string
           word: string
         }
         Insert: {
           category_id: string
           created_at?: string
-          definition?: string[] | null
           examples?: string[] | null
           id?: string
+          ipa?: string | null
           is_marked?: boolean | null
-          jargon_definition?: string[] | null
+          memo?: string | null
           updated_at?: string
           word: string
         }
         Update: {
           category_id?: string
           created_at?: string
-          definition?: string[] | null
           examples?: string[] | null
           id?: string
+          ipa?: string | null
           is_marked?: boolean | null
-          jargon_definition?: string[] | null
+          memo?: string | null
           updated_at?: string
           word?: string
         }
@@ -145,6 +145,38 @@ export type Database = {
             columns: ['category_id']
             isOneToOne: false
             referencedRelation: 'category'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      word_definition: {
+        Row: {
+          definition: string
+          definition_order: number
+          id: string
+          is_jargon: boolean | null
+          word_id: string | null
+        }
+        Insert: {
+          definition: string
+          definition_order: number
+          id?: string
+          is_jargon?: boolean | null
+          word_id?: string | null
+        }
+        Update: {
+          definition?: string
+          definition_order?: number
+          id?: string
+          is_jargon?: boolean | null
+          word_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'word_definition_word_id_fkey'
+            columns: ['word_id']
+            isOneToOne: false
+            referencedRelation: 'word'
             referencedColumns: ['id']
           },
         ]
@@ -200,16 +232,19 @@ export type Database = {
       }
       word_link_type: {
         Row: {
+          color: string | null
           created_at: string
           id: number
           name: string
         }
         Insert: {
+          color?: string | null
           created_at?: string
           id?: number
           name: string
         }
         Update: {
+          color?: string | null
           created_at?: string
           id?: number
           name?: string
@@ -221,7 +256,20 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      create_word: {
+        Args: {
+          p_word_data: Json
+        }
+        Returns: Json
+      }
+      fetch_words: {
+        Args: {
+          user_id: string
+          order_by_column: string
+          is_ascending: boolean
+        }
+        Returns: Json
+      }
     }
     Enums: {
       [_ in never]: never

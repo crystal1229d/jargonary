@@ -48,12 +48,14 @@
 
 /* Dynamic Fields */
 .dynamicFields > button {
+  width: 2rem;
+  height: 2rem;
   margin-right: auto;
+
   background: var(--green-shadow);
   color: white;
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
+  border-radius: 50%;
   cursor: pointer;
 }
 .dynamicFields > button:hover {
@@ -62,6 +64,7 @@
 
 .dynamicField {
   display: flex;
+  align-items: center;
   gap: 1rem;
   margin-bottom: 0.5rem;
 }
@@ -70,16 +73,20 @@
   flex: 1;
 }
 
-.dynamicField button {
-  background: #f44336;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
+.deleteBtn {
+  color: var(--light-gray);
+
   cursor: pointer;
+  transition: transform 0.3s ease, color 0.3s ease;
+
+  &:hover {
+    transform: scale(1.1);
+    filter: brightness(0.85);
+  }
 }
-.dynamicField button:hover {
-  filter: brightness(0.85);
+.deleteBtn svg {
+  width: 1rem;
+  height: 1rem;
 }
 
 /* Linked Words */

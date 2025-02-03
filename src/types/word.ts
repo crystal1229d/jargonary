@@ -6,14 +6,20 @@ export type WordRow = Database['public']['Tables']['word']['Row']
 export interface Word {
   id: string
   word: string
-  definition: string[]
-  jargonDefinition: string[]
+  definition: WordDefinition[]
   isMarked: boolean
   examples: string[]
   ipa: string
   memo: string[]
   createdAt: string
   updatedAt: string
+}
+
+export interface WordDefinition {
+  id: string
+  definition: string
+  isJargon: boolean
+  order: number
 }
 
 export interface WordLinkType {
@@ -28,7 +34,9 @@ export interface WordLink {
   linkedWordId: Word['id']
   linkTypeId: WordLinkType['id']
   textValue?: string | null
-  linkedWord?: Pick<Word, 'id' | 'word' | 'definition'> | null
+  linkedWord?:
+    | (Pick<Word, 'id' | 'word'> & { definition: WordDefinition[] })
+    | null
 }
 
 export interface WordWithDetails extends Word {
@@ -40,6 +48,6 @@ export interface LinkedWord {
   id: WordLink['id']
   linkTypeName?: WordLinkType['name']
   linkTypeColor?: WordLinkType['color']
-  linkedWord?: Pick<Word, 'id' | 'word' | 'definition'>
+  linkedWord?: Pick<Word, 'id' | 'word'> & { definition: WordDefinition[] }
   textValue?: WordLink['textValue']
 }

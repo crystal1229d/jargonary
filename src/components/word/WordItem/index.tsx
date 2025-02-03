@@ -1,11 +1,11 @@
 import { WordWithDetails } from '@/types'
-import LinkedWordsList from '../LinkedWordsList'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faPen, faBookmark } from '@fortawesome/free-solid-svg-icons'
-
-import styles from './WordItem.module.css'
 import CategoryBadge from '../CategoryBadge'
 import ExamplesList from '../ExamplesList'
+import LinkedWordsList from '../LinkedWordsList'
+
+import styles from './WordItem.module.css'
 
 interface Props {
   word: WordWithDetails
@@ -37,21 +37,17 @@ export default function WordItem({ word }: Props) {
 
       {word.ipa && <p className={styles.ipa}>[{word.ipa}]</p>}
 
-      <ol className={styles.jargonDefinition}>
-        {word.jargonDefinition?.map((def, index) => (
-          <li key={index}>{def}</li>
+      <ol className={styles.definition}>
+        {word.definition?.map((def) => (
+          <li key={def.id} className={def.isJargon ? styles.jargon : undefined}>
+            {def.definition}
+          </li>
         ))}
       </ol>
 
       <ExamplesList examples={word.examples} />
 
       {word.linkedWords && <hr />}
-
-      <ol className={styles.definition}>
-        {word.definition?.map((def, index) => (
-          <li key={index}>{def}</li>
-        ))}
-      </ol>
 
       <LinkedWordsList linkedWords={word.linkedWords || []} />
 

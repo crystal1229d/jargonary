@@ -26,7 +26,7 @@
 
   &:hover {
     transform: scale(1.1);
-    color: var(--gray);
+    filter: brightness(0.85);
   }
 }
 .actions button svg {
@@ -49,23 +49,17 @@
   color: var(--blue-point);
 }
 
-.jargonDefinition {
+.definition {
   margin: 0.8rem 0 0.8rem 20px;
   padding: 0;
 
   list-style: decimal;
   color: black;
   font-size: 0.95rem;
-  font-weight: 600;
+  font-weight: 700;
 }
-.definition {
-  margin: 5px 0 0 20px;
-  padding: 0;
-
-  list-style: decimal;
-  color: black;
-  font-size: 0.95rem;
-  font-weight: 600;
+.definition .jargon {
+  color: red;
 }
 
 .mark {
