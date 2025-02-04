@@ -1,12 +1,13 @@
 'use client'
 
-import { Dispatch, SetStateAction, useState } from 'react'
+import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Category, WordLinkType } from '@/types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 import styles from './Form.module.css'
+import Image from 'next/image'
 
 interface Props {
   categories: Category[] | []
@@ -16,6 +17,9 @@ interface Props {
 export default function WordForm({ categories, wordLinkTypes }: Props) {
   const router = useRouter()
 
+  const [selectedCategory, setSelectedCategory] = useState<string>(
+    categories[0].id,
+  )
   const [definitions, setDefinitions] = useState<string[]>([''])
   const [examples, setExamples] = useState<string[]>([''])
   const [linkedWords, setLinkedwords] = useState<
@@ -25,6 +29,10 @@ export default function WordForm({ categories, wordLinkTypes }: Props) {
   const [showLinkedWordTypePicker, setShowLinkedWordTypePicker] =
     useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
+
+  const handleCategoryChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setSelectedCategory(e.target.value)
+  }
 
   const handleAddField = (setter: Dispatch<SetStateAction<string[]>>) => {
     setter((prev) => [...prev, ''])
@@ -69,9 +77,13 @@ export default function WordForm({ categories, wordLinkTypes }: Props) {
     setLoading(false)
   }
 
+  const selectedCategoryInfo =
+    categories.find((category) => category.id === selectedCategory) ||
+    categories[0]
+
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
-      <div className={styles.formGroup}>
+      {/* <div className={styles.formGroup}>
         <label htmlFor="category">Category</label>
         <select>
           {categories.map((category) => (
@@ -80,6 +92,35 @@ export default function WordForm({ categories, wordLinkTypes }: Props) {
             </option>
           ))}
         </select>
+      </div> */}
+
+      <div className={`${styles.formGroup} ${styles.categorySelect}`}>
+        <div className={styles.imageSection}>
+          <Image
+            src={`/assets/images/short_category_${selectedCategoryInfo.color}.png`}
+            alt="category"
+            width="436"
+            height="84"
+            priority={true}
+          />
+        </div>
+        <div className={styles.infoSection}>
+          <select
+            value={selectedCategory}
+            onChange={handleCategoryChange}
+            style={{ background: `var(--${selectedCategoryInfo.color})` }}
+          >
+            {categories.map((category) => (
+              <option
+                key={category.id}
+                value={category.id}
+                style={{ background: `var(--${category.color})` }}
+              >
+                {category.icon} {category.name}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
       <div className={styles.formGroup}>
@@ -114,7 +155,11 @@ export default function WordForm({ categories, wordLinkTypes }: Props) {
             </button>
           </div>
         ))}
-        <button type="button" onClick={() => handleAddField(setDefinitions)}>
+        <button
+          type="button"
+          className={styles.addBtn}
+          onClick={() => handleAddField(setDefinitions)}
+        >
           <FontAwesomeIcon icon={faPlus} />
         </button>
       </div>
@@ -140,7 +185,11 @@ export default function WordForm({ categories, wordLinkTypes }: Props) {
             </button>
           </div>
         ))}
-        <button type="button" onClick={() => handleAddField(setExamples)}>
+        <button
+          type="button"
+          className={styles.addBtn}
+          onClick={() => handleAddField(setExamples)}
+        >
           <FontAwesomeIcon icon={faPlus} />
         </button>
       </div>
@@ -172,12 +221,15 @@ export default function WordForm({ categories, wordLinkTypes }: Props) {
             </button>
           </div>
         ))}
-        <button type="button" onClick={() => setShowLinkedWordTypePicker(true)}>
+        <button
+          type="button"
+          className={styles.addBtn}
+          onClick={() => setShowLinkedWordTypePicker(true)}
+        >
           <FontAwesomeIcon icon={faPlus} />
         </button>
       </div>
 
-      {/* LinkedWord Type Picker Modal */}
       {showLinkedWordTypePicker && (
         <div className={styles.linkedWordPicker}>
           <h3>Select LinkedWord Type</h3>
@@ -197,11 +249,6 @@ export default function WordForm({ categories, wordLinkTypes }: Props) {
           </button>
         </div>
       )}
-
-      {/* <div className={styles.formGroup}>
-        <label htmlFor="linkedWord">LinkedWord</label>
-        <input type="text" placeholder="linkedWord" required />
-      </div> */}
 
       <div className={styles.formGroup}>
         <label htmlFor="memo">Memo</label>
