@@ -19,7 +19,6 @@ export async function signin(formData: FormData) {
     throw new Error(error.message)
   }
 
-  console.log('signin-> userData : ', userData)
   useUserStore.getState().setUser({
     id: userData.user.id,
     email: userData.user.email as string,

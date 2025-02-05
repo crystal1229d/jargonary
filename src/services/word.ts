@@ -68,6 +68,30 @@ export async function fetchWordsByCategory(
   return (data || []).map(WordDTO.fromSnakeCase)
 }
 
+export async function deleteWord(wordId: string): Promise<boolean> {
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) {
+    console.error('User not authenticated')
+    return false
+  }
+
+  const { error } = await supabase.rpc('delete_word', {
+    word_id: wordId,
+    user_id: user?.id,
+  })
+
+  if (error) {
+    console.error('Failed to delete word ', error)
+    return false
+  }
+
+  return true
+}
+
 export async function fetchWordLinkTypes(): Promise<WordLinkType[]> {
   const supabase = await createClient()
   const { data, error } = await supabase

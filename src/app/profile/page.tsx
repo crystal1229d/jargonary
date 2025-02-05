@@ -9,7 +9,6 @@ export default async function ProfilePage() {
   if (error || !data?.user) {
     redirect('/login')
   }
-  console.log(data)
 
   return (
     <main className={styles.page}>

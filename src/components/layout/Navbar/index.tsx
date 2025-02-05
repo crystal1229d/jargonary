@@ -13,8 +13,6 @@ export default function Navbar() {
   const location = usePathname()
   const user = useUserStore((state) => state.user)
 
-  console.log('[Navbar] user : ', user)
-
   const currentPath = NAVIGATION.find(
     (nav) =>
       (nav.link === '/' && location === '/') ||
@@ -33,9 +31,9 @@ export default function Navbar() {
     setSelectedNav(updatedPath ? updatedPath.label : '/')
   }, [location])
 
-  useEffect(() => {
-    console.log('[Navbar] user updated:', user)
-  }, [user])
+  // useEffect(() => {
+  //   console.log('[Navbar] user updated:', user)
+  // }, [user])
 
   return (
     <nav className={styles.navbar}>

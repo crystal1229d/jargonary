@@ -17,8 +17,6 @@ export default async function WordPage({ searchParams }: Props) {
   const sortBy = params.sort_by || 'name'
   const words: WordWithDetails[] = await fetchWords(sortBy)
 
-  console.log(words)
-
   return (
     <main className={styles.page}>
       <Search />
