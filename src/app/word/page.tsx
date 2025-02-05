@@ -3,8 +3,8 @@ import { fetchWords } from '@/services/word'
 import Search from '@/components/common/Search'
 import WordItem from '@/components/word/WordItem'
 import NoItem from '@/components/common/NoItem'
-import styles from './page.module.css'
 import Control from '@/components/word/Control'
+import styles from './page.module.css'
 
 interface Props {
   searchParams: Promise<{

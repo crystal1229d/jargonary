@@ -1,13 +1,15 @@
 'use client'
 
-import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Category, WordLinkType } from '@/types'
+import { Category, WordDefinition, WordLinkType } from '@/types'
+import { generateTempId } from '@/utils'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faTrash, faCheck } from '@fortawesome/free-solid-svg-icons'
+import SelectCategory from '../SelectCategory'
+import LinkedWordsForm from '../LinkedWordsForm'
 
 import styles from './Form.module.css'
-import Image from 'next/image'
 
 interface Props {
   categories: Category[] | []
@@ -17,22 +19,12 @@ interface Props {
 export default function WordForm({ categories, wordLinkTypes }: Props) {
   const router = useRouter()
 
-  const [selectedCategory, setSelectedCategory] = useState<string>(
-    categories[0].id,
-  )
-  const [definitions, setDefinitions] = useState<string[]>([''])
+  const [definitions, setDefinitions] = useState<WordDefinition[]>([
+    { id: generateTempId(), definition: '', isJargon: false, order: 1 },
+  ])
   const [examples, setExamples] = useState<string[]>([''])
-  const [linkedWords, setLinkedwords] = useState<
-    { type: WordLinkType; value: string }[]
-  >([])
-
-  const [showLinkedWordTypePicker, setShowLinkedWordTypePicker] =
-    useState<boolean>(false)
+  const [memo, setMemo] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
-
-  const handleCategoryChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setSelectedCategory(e.target.value)
-  }
 
   const handleAddField = (setter: Dispatch<SetStateAction<string[]>>) => {
     setter((prev) => [...prev, ''])
@@ -53,75 +45,55 @@ export default function WordForm({ categories, wordLinkTypes }: Props) {
     setter((prev) => prev.map((item, i) => (i === idx ? value : item)))
   }
 
-  const handleAddLinkedWord = (type: WordLinkType) => {
-    setLinkedwords([...linkedWords, { type, value: '' }])
-  }
-
-  const handleRemoveLinkedWord = (idx: number) => {
-    setLinkedwords((prev) => prev.filter((_, i) => i !== idx))
-  }
-
-  const handleLinkedWordChange = (
-    idx: number,
-    value: string,
-    setter: Dispatch<SetStateAction<{ type: WordLinkType; value: string }[]>>,
-  ) => {
-    setter((prev) =>
-      prev.map((item, i) => (i === idx ? { ...item, value } : item)),
+  const handleDefinitionChange = (id: string, value: string) => {
+    setDefinitions((prev) =>
+      prev.map((def) => (def.id === id ? { ...def, definition: value } : def)),
     )
   }
 
-  const handleSubmit = () => {
-    setLoading(true)
-    alert('submit form')
-    setLoading(false)
+  const handleAddDefinition = () => {
+    setDefinitions((prev) => [
+      ...prev,
+      {
+        id: generateTempId(),
+        definition: '',
+        isJargon: false,
+        order: prev.length + 1,
+      },
+    ])
   }
 
-  const selectedCategoryInfo =
-    categories.find((category) => category.id === selectedCategory) ||
-    categories[0]
+  const handleRemoveDefinition = (id: string) => {
+    setDefinitions((prev) => prev.filter((def) => def.id !== id))
+  }
+
+  const handleToggleJargon = (id: string) => {
+    setDefinitions((prev) =>
+      prev.map((def) =>
+        def.id === id ? { ...def, isJargon: !def.isJargon } : def,
+      ),
+    )
+  }
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    setLoading(true)
+
+    try {
+      alert('created')
+      router.push('/words')
+    } catch (error) {
+      console.error(error)
+      alert('Failed to create word')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
-      {/* <div className={styles.formGroup}>
-        <label htmlFor="category">Category</label>
-        <select>
-          {categories.map((category) => (
-            <option key={category.id}>
-              {category.icon} {category.name}
-            </option>
-          ))}
-        </select>
-      </div> */}
-
-      <div className={`${styles.formGroup} ${styles.categorySelect}`}>
-        <div className={styles.imageSection}>
-          <Image
-            src={`/assets/images/short_category_${selectedCategoryInfo.color}.png`}
-            alt="category"
-            width="436"
-            height="84"
-            priority={true}
-          />
-        </div>
-        <div className={styles.infoSection}>
-          <select
-            value={selectedCategory}
-            onChange={handleCategoryChange}
-            style={{ background: `var(--${selectedCategoryInfo.color})` }}
-          >
-            {categories.map((category) => (
-              <option
-                key={category.id}
-                value={category.id}
-                style={{ background: `var(--${category.color})` }}
-              >
-                {category.icon} {category.name}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
+      <SelectCategory categories={categories} />
 
       <div className={styles.formGroup}>
         <label htmlFor="word">Word</label>
@@ -130,26 +102,37 @@ export default function WordForm({ categories, wordLinkTypes }: Props) {
 
       <div className={styles.formGroup}>
         <label htmlFor="ipa">IPA</label>
-        <input type="text" placeholder="bʌɡ" required />
+        <div className={styles.ipa}>
+          <p>{`[`}</p>
+          <input type="text" placeholder="bʌɡ" required />
+          <p>{`]`}</p>
+        </div>
       </div>
 
       <div className={`${styles.formGroup} ${styles.dynamicFields}`}>
         <label>Definition</label>
-        {definitions.map((definition, index) => (
-          <div key={index} className={styles.dynamicField}>
+        {definitions.map((def, index) => (
+          <div key={def.id} className={styles.dynamicField}>
             <p>{index + 1}</p>
             <input
               type="text"
-              value={definition}
-              onChange={(e) =>
-                handleInputChange(index, e.target.value, setDefinitions)
-              }
+              value={def.definition}
+              onChange={(e) => handleDefinitionChange(def.id, e.target.value)}
               placeholder="버그"
             />
             <button
               type="button"
+              className={`${styles.checkBtn} ${
+                def.isJargon ? styles.jargon : ''
+              }`}
+              onClick={() => handleToggleJargon(def.id)}
+            >
+              <FontAwesomeIcon icon={faCheck} />
+            </button>
+            <button
+              type="button"
               className={styles.deleteBtn}
-              onClick={() => handleRemoveField(index, setDefinitions)}
+              onClick={() => handleRemoveDefinition(def.id)}
             >
               <FontAwesomeIcon icon={faTrash} />
             </button>
@@ -158,7 +141,7 @@ export default function WordForm({ categories, wordLinkTypes }: Props) {
         <button
           type="button"
           className={styles.addBtn}
-          onClick={() => handleAddField(setDefinitions)}
+          onClick={handleAddDefinition}
         >
           <FontAwesomeIcon icon={faPlus} />
         </button>
@@ -194,66 +177,14 @@ export default function WordForm({ categories, wordLinkTypes }: Props) {
         </button>
       </div>
 
-      <div className={`${styles.formGroup} ${styles.dynamicFields}`}>
-        <label>LinkedWords</label>
-        {linkedWords.map((linkedWord, index) => (
-          <div key={index} className={styles.dynamicField}>
-            <span
-              className={styles.linkedWordType}
-              style={{ backgroundColor: linkedWord.type.color }}
-            >
-              {linkedWord.type.name}
-            </span>
-            <input
-              type="text"
-              value={linkedWord.value}
-              onChange={(e) =>
-                handleLinkedWordChange(index, e.target.value, setLinkedwords)
-              }
-              placeholder="linkedWord value"
-            />
-            <button
-              type="button"
-              className={styles.deleteBtn}
-              onClick={() => handleRemoveLinkedWord(index)}
-            >
-              <FontAwesomeIcon icon={faTrash} />
-            </button>
-          </div>
-        ))}
-        <button
-          type="button"
-          className={styles.addBtn}
-          onClick={() => setShowLinkedWordTypePicker(true)}
-        >
-          <FontAwesomeIcon icon={faPlus} />
-        </button>
-      </div>
-
-      {showLinkedWordTypePicker && (
-        <div className={styles.linkedWordPicker}>
-          <h3>Select LinkedWord Type</h3>
-          <ul>
-            {wordLinkTypes.map((type) => (
-              <li
-                key={type.id}
-                style={{ color: type.color, cursor: 'pointer' }}
-                onClick={() => handleAddLinkedWord(type)}
-              >
-                {type.name}
-              </li>
-            ))}
-          </ul>
-          <button onClick={() => setShowLinkedWordTypePicker(false)}>
-            Cancel
-          </button>
-        </div>
-      )}
+      <LinkedWordsForm wordLinkTypes={wordLinkTypes} />
 
       <div className={styles.formGroup}>
         <label htmlFor="memo">Memo</label>
         <textarea
           id="memo"
+          value={memo}
+          onChange={(e) => setMemo(e.target.value)}
           placeholder="A bug is an error that prevents an app or website from operating the way it’s supposed to. This is one of the most common web development terms you’ll hear."
           required
           rows={5}

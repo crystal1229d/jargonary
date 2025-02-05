@@ -1,0 +1,128 @@
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.formGroup label {
+  font-weight: bold;
+}
+.formGroup input,
+.formGroup textarea {
+  padding: 0.5rem;
+  border: 1px solid #eaeaea;
+  border-radius: 4px;
+}
+
+.dynamicField {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.dynamicField input {
+  flex: 1;
+}
+
+.deleteBtn {
+  color: var(--light-gray);
+
+  cursor: pointer;
+  transition: transform 0.3s ease, color 0.3s ease;
+
+  &:hover {
+    transform: scale(1.1);
+    filter: brightness(0.85);
+  }
+}
+.checkBtn svg,
+.deleteBtn svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.addBtn {
+  /* width: 2rem;
+  height: 2rem;
+  margin-right: auto; */
+
+  /* background: var(--green-shadow); */
+  /* color: white; */
+  color: #eaeaea;
+  /* color: #888; */
+  border: none;
+  /* border-radius: 50%; */
+  cursor: pointer;
+  border: 2px solid #eaeaea;
+  /* border: 1px solid #888; */
+
+  cursor: pointer;
+  transition: transform 0.3s ease, color 0.3s ease;
+
+  &:hover {
+    /* transform: scale(1.01); */
+    filter: brightness(0.7);
+  }
+}
+.addBtn svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Linked Words */
+.linkedWordPicker {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border: 1px solid #eaeaea;
+  border-radius: 8px;
+  padding: 1rem;
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.linkedWordPicker h3 {
+  margin-bottom: 1rem;
+}
+
+.linkedWordPicker ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
+}
+
+.linkedWordPicker ul li {
+  padding: 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.linkedWordPicker ul li:hover {
+  background-color: #f1f1f1;
+}
+
+.linkedWordPicker button {
+  display: block;
+  margin: 0 auto;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #888;
+  color: white;
+  cursor: pointer;
+}
+
+.badge {
+  padding: 1px 8px;
+  display: inline-block;
+
+  font-weight: 600;
+  font-size: 0.68rem;
+  color: black;
+  border: 1px solid var(--gray);
+  border-radius: 5px;
+}

@@ -68,6 +68,29 @@ export async function fetchWordsByCategory(
   return (data || []).map(WordDTO.fromSnakeCase)
 }
 
+export async function createWord(
+  newWord: WordWithDetails,
+): Promise<WordWithDetails> {
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) {
+    throw new Error('User not authenticated')
+  }
+
+  const { data, error } = await supabase.rpc('create_word', {
+    p_word_data: newWord,
+  })
+
+  if (error) {
+    throw new Error(`Failed to create word: ${error.message}`)
+  }
+
+  return data
+}
+
 export async function deleteWord(wordId: string): Promise<boolean> {
   const supabase = await createClient()
   const {

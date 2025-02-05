@@ -26,3 +26,6 @@ export const handleRequest = async <T>(
     setError(error.message)
   }
 }
+
+export const generateTempId = () =>
+  Date.now().toString() + Math.random().toString(36).substring(2, 8)

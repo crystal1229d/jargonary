@@ -22,6 +22,35 @@
   border-radius: 4px;
 }
 
+.ipa {
+  display: flex;
+  align-items: center;
+}
+.ipa p {
+  font-size: 2rem;
+  font-weight: 500;
+  color: #eaeaea;
+  transition: color 0.3s ease;
+}
+.ipa input {
+  width: 100%;
+  margin: 0 10px;
+  text-align: center;
+  border: none;
+  border-bottom: 2px solid #eaeaea;
+  border-radius: 0;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+.ipa input:hover,
+.ipa input:focus {
+  border-bottom-color: black;
+}
+.ipa:has(input:hover) p,
+.ipa:has(input:focus) p {
+  color: black;
+}
+
 /* Select & Options */
 .formGroup select {
   width: 100%;
@@ -68,21 +97,6 @@
 }
 
 /* Dynamic Fields */
-/* .dynamicFields > button {
-  width: 2rem;
-  height: 2rem;
-  margin-right: auto;
-
-  background: var(--green-shadow);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-}
-.dynamicFields > button:hover {
-  filter: brightness(0.85);
-} */
-
 .dynamicField {
   display: flex;
   align-items: center;
@@ -92,6 +106,33 @@
 
 .dynamicField input {
   flex: 1;
+}
+
+.checkBtn {
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #eaeaea;
+  border: 2px solid #eaeaea;
+  border-radius: 50%;
+
+  cursor: pointer;
+  transition: transform 0.3s ease, color 0.3s ease;
+
+  &:hover {
+    /* transform: scale(1.03); */
+    filter: brightness(0.85);
+  }
+}
+.checkBtn.jargon {
+  border: 2px solid var(--green-shadow);
+  background: var(--green-shadow);
+}
+.checkBtn.jargon svg {
+  color: white;
 }
 
 .deleteBtn {
@@ -105,6 +146,7 @@
     filter: brightness(0.85);
   }
 }
+.checkBtn svg,
 .deleteBtn svg {
   width: 1rem;
   height: 1rem;
@@ -118,10 +160,12 @@
   /* background: var(--green-shadow); */
   /* color: white; */
   color: #eaeaea;
+  /* color: #888; */
   border: none;
   /* border-radius: 50%; */
   cursor: pointer;
-  border: 1px solid #eaeaea;
+  border: 2px solid #eaeaea;
+  /* border: 1px solid #888; */
 
   cursor: pointer;
   transition: transform 0.3s ease, color 0.3s ease;
@@ -220,4 +264,15 @@
     transform: scale(1.03);
     background-color: var(--yellow);
   }
+}
+
+.badge {
+  padding: 1px 8px;
+  display: inline-block;
+
+  font-weight: 600;
+  font-size: 0.68rem;
+  color: black;
+  border: 1px solid var(--gray);
+  border-radius: 5px;
 }
