@@ -1,12 +1,20 @@
 'use client'
 
-import { Dispatch, SetStateAction, useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Category, WordDefinition, WordLinkType } from '@/types'
+import {
+  Category,
+  LinkedWordInput,
+  Word,
+  WordDefinition,
+  WordLinkType,
+} from '@/types'
+// import { createWord } from '@/services/word'
 import { generateTempId } from '@/utils'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faTrash, faCheck } from '@fortawesome/free-solid-svg-icons'
+
 import SelectCategory from '../SelectCategory'
+import DefinitionsForm from '../DefinitionsForm'
+import ExamplesForm from '../ExamplesForm'
 import LinkedWordsForm from '../LinkedWordsForm'
 
 import styles from './Form.module.css'
@@ -19,69 +27,26 @@ interface Props {
 export default function WordForm({ categories, wordLinkTypes }: Props) {
   const router = useRouter()
 
+  const [loading, setLoading] = useState<boolean>(false)
+
+  const [selectedCategory, setSelectedCategory] = useState<Category['id']>(
+    categories[0]?.id ?? '',
+  )
+  const [word, setWord] = useState<Word['word']>('')
+  const [ipa, setIpa] = useState<Word['ipa']>('')
   const [definitions, setDefinitions] = useState<WordDefinition[]>([
     { id: generateTempId(), definition: '', isJargon: false, order: 1 },
   ])
-  const [examples, setExamples] = useState<string[]>([''])
-  const [memo, setMemo] = useState<string>('')
-  const [loading, setLoading] = useState<boolean>(false)
-
-  const handleAddField = (setter: Dispatch<SetStateAction<string[]>>) => {
-    setter((prev) => [...prev, ''])
-  }
-
-  const handleRemoveField = (
-    idx: number,
-    setter: Dispatch<SetStateAction<string[]>>,
-  ) => {
-    setter((prev) => prev.filter((_, i) => i !== idx))
-  }
-
-  const handleInputChange = (
-    idx: number,
-    value: string,
-    setter: Dispatch<SetStateAction<string[]>>,
-  ) => {
-    setter((prev) => prev.map((item, i) => (i === idx ? value : item)))
-  }
-
-  const handleDefinitionChange = (id: string, value: string) => {
-    setDefinitions((prev) =>
-      prev.map((def) => (def.id === id ? { ...def, definition: value } : def)),
-    )
-  }
-
-  const handleAddDefinition = () => {
-    setDefinitions((prev) => [
-      ...prev,
-      {
-        id: generateTempId(),
-        definition: '',
-        isJargon: false,
-        order: prev.length + 1,
-      },
-    ])
-  }
-
-  const handleRemoveDefinition = (id: string) => {
-    setDefinitions((prev) => prev.filter((def) => def.id !== id))
-  }
-
-  const handleToggleJargon = (id: string) => {
-    setDefinitions((prev) =>
-      prev.map((def) =>
-        def.id === id ? { ...def, isJargon: !def.isJargon } : def,
-      ),
-    )
-  }
+  const [examples, setExamples] = useState<Word['examples']>([''])
+  const [linkedWords, setLinkedwords] = useState<LinkedWordInput[]>([])
+  const [memo, setMemo] = useState<Word['memo']>('')
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-
     setLoading(true)
 
     try {
-      alert('created')
+      // await createWord(newWord)
       router.push('/words')
     } catch (error) {
       console.error(error)
@@ -93,91 +58,47 @@ export default function WordForm({ categories, wordLinkTypes }: Props) {
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
-      <SelectCategory categories={categories} />
+      <SelectCategory
+        categories={categories}
+        selectedCategory={selectedCategory}
+        onChange={setSelectedCategory}
+      />
 
       <div className={styles.formGroup}>
         <label htmlFor="word">Word</label>
-        <input type="text" placeholder="bug" required />
+        <input
+          type="text"
+          placeholder="bug"
+          value={word}
+          onChange={(e) => setWord(e.target.value)}
+          required
+        />
       </div>
 
       <div className={styles.formGroup}>
         <label htmlFor="ipa">IPA</label>
         <div className={styles.ipa}>
           <p>{`[`}</p>
-          <input type="text" placeholder="bʌɡ" required />
+          <input
+            type="text"
+            placeholder="bʌɡ"
+            value={ipa}
+            onChange={(e) => setIpa(e.target.value)}
+            required
+          />
           <p>{`]`}</p>
         </div>
       </div>
 
-      <div className={`${styles.formGroup} ${styles.dynamicFields}`}>
-        <label>Definition</label>
-        {definitions.map((def, index) => (
-          <div key={def.id} className={styles.dynamicField}>
-            <p>{index + 1}</p>
-            <input
-              type="text"
-              value={def.definition}
-              onChange={(e) => handleDefinitionChange(def.id, e.target.value)}
-              placeholder="버그"
-            />
-            <button
-              type="button"
-              className={`${styles.checkBtn} ${
-                def.isJargon ? styles.jargon : ''
-              }`}
-              onClick={() => handleToggleJargon(def.id)}
-            >
-              <FontAwesomeIcon icon={faCheck} />
-            </button>
-            <button
-              type="button"
-              className={styles.deleteBtn}
-              onClick={() => handleRemoveDefinition(def.id)}
-            >
-              <FontAwesomeIcon icon={faTrash} />
-            </button>
-          </div>
-        ))}
-        <button
-          type="button"
-          className={styles.addBtn}
-          onClick={handleAddDefinition}
-        >
-          <FontAwesomeIcon icon={faPlus} />
-        </button>
-      </div>
+      <DefinitionsForm definitions={definitions} onChange={setDefinitions} />
 
-      <div className={`${styles.formGroup} ${styles.dynamicFields}`}>
-        <label>Example</label>
-        {examples.map((example, index) => (
-          <div key={index} className={styles.dynamicField}>
-            <input
-              type="text"
-              value={example}
-              onChange={(e) =>
-                handleInputChange(index, e.target.value, setExamples)
-              }
-              placeholder="I'll fix the bug."
-            />
-            <button
-              type="button"
-              className={styles.deleteBtn}
-              onClick={() => handleRemoveField(index, setExamples)}
-            >
-              <FontAwesomeIcon icon={faTrash} />
-            </button>
-          </div>
-        ))}
-        <button
-          type="button"
-          className={styles.addBtn}
-          onClick={() => handleAddField(setExamples)}
-        >
-          <FontAwesomeIcon icon={faPlus} />
-        </button>
-      </div>
+      <ExamplesForm examples={examples} onChange={setExamples} />
 
-      <LinkedWordsForm wordLinkTypes={wordLinkTypes} />
+      <LinkedWordsForm
+        wordLinkTypes={wordLinkTypes}
+        linkedWords={linkedWords}
+        onChange={setLinkedwords}
+      />
 
       <div className={styles.formGroup}>
         <label htmlFor="memo">Memo</label>

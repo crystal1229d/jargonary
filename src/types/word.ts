@@ -10,7 +10,7 @@ export interface Word {
   isMarked: boolean
   examples: string[]
   ipa: string
-  memo: string[]
+  memo: string
   createdAt: string
   updatedAt: string
 }
@@ -31,7 +31,7 @@ export interface WordLinkType {
 export interface WordLink {
   id: string
   wordId: Word['id']
-  linkedWordId: Word['id']
+  linkedWordId?: Word['id']
   linkTypeId: WordLinkType['id']
   textValue?: string | null
   linkedWord?:
@@ -44,10 +44,17 @@ export interface WordWithDetails extends Word {
   linkedWords?: LinkedWord[]
 }
 
+/* UI */
 export interface LinkedWord {
   id: WordLink['id']
   linkTypeName?: WordLinkType['name']
   linkTypeColor?: WordLinkType['color']
   linkedWord?: Pick<Word, 'id' | 'word'> & { definition: WordDefinition[] }
   textValue?: WordLink['textValue']
+}
+
+export interface LinkedWordInput {
+  type: WordLinkType
+  value: string
+  selectedWordId?: string
 }

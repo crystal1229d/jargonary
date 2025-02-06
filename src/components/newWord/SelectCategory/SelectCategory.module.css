@@ -13,6 +13,7 @@
   border: 1px solid #eaeaea;
   border-radius: 4px;
 }
+
 /* Select & Options */
 .formGroup select {
   width: 100%;
@@ -25,7 +26,6 @@
   outline: none;
   cursor: pointer;
 
-  /* background: transparent; */
   border: 2px solid #000000;
   border-radius: 4px;
 }
@@ -56,4 +56,25 @@
   padding: 30px 20px 10px 20px;
   box-sizing: border-box;
   display: flex;
+}
+
+.createBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.createBtn button {
+  width: 100%;
+  height: 100%;
+
+  font-size: 1.1rem;
+  font-weight: 700;
+  border: 2px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+  background: var(--yellow);
+}
+.createBtn:hover {
+  transform: scale(1.015);
 }

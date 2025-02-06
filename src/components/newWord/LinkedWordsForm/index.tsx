@@ -1,36 +1,36 @@
-import { WordLinkType } from '@/types'
-import { Dispatch, SetStateAction, useState } from 'react'
+'use client'
+
+import { useState } from 'react'
+import { LinkedWordInput, WordLinkType } from '@/types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
-
 import styles from './LinkedWordsForm.module.css'
 
 interface Props {
   wordLinkTypes: WordLinkType[]
+  linkedWords: LinkedWordInput[]
+  onChange: (linkedWords: LinkedWordInput[]) => void
 }
 
-export default function LinkedWordsForm({ wordLinkTypes }: Props) {
+export default function LinkedWordsForm({
+  wordLinkTypes,
+  linkedWords,
+  onChange,
+}: Props) {
   const [showLinkedWordTypePicker, setShowLinkedWordTypePicker] =
     useState<boolean>(false)
-  const [linkedWords, setLinkedwords] = useState<
-    { type: WordLinkType; value: string }[]
-  >([])
 
   const handleAddLinkedWord = (type: WordLinkType) => {
-    setLinkedwords([...linkedWords, { type, value: '' }])
+    onChange([...linkedWords, { type, value: '' }])
   }
 
   const handleRemoveLinkedWord = (idx: number) => {
-    setLinkedwords((prev) => prev.filter((_, i) => i !== idx))
+    onChange(linkedWords.filter((_, i) => i !== idx))
   }
 
-  const handleLinkedWordChange = (
-    idx: number,
-    value: string,
-    setter: Dispatch<SetStateAction<{ type: WordLinkType; value: string }[]>>,
-  ) => {
-    setter((prev) =>
-      prev.map((item, i) => (i === idx ? { ...item, value } : item)),
+  const handleLinkedWordChange = (idx: number, value: string) => {
+    onChange(
+      linkedWords.map((word, i) => (i === idx ? { ...word, value } : word)),
     )
   }
 
@@ -51,9 +51,7 @@ export default function LinkedWordsForm({ wordLinkTypes }: Props) {
             <input
               type="text"
               value={linkedWord.value}
-              onChange={(e) =>
-                handleLinkedWordChange(index, e.target.value, setLinkedwords)
-              }
+              onChange={(e) => handleLinkedWordChange(index, e.target.value)}
               placeholder="linkedWord value"
             />
             <button
