@@ -2,11 +2,11 @@ import { Database } from './supabase'
 import { Category } from './category'
 
 /* DB */
-export type WordRow = Database['public']['Tables']['word']['Row']
-export type WordDefinitionRow =
-  Database['public']['Tables']['word_definition']['Row']
-export type WordLinkTypeRow =
-  Database['public']['Tables']['word_link_type']['Row']
+type TABLE = Database['public']['Tables']
+
+export type WordRow = TABLE['word']['Row']
+export type WordDefinitionRow = TABLE['word_definition']['Row']
+export type WordLinkTypeRow = TABLE['word_link_type']['Row']
 
 /* UI */
 export interface Word {
