@@ -21,7 +21,7 @@ export default function LinkedWordsForm({
     useState<boolean>(false)
 
   const handleAddLinkedWord = (type: WordLinkType) => {
-    onChange([...linkedWords, { type, value: '' }])
+    onChange([...linkedWords, { type, textValue: '' }])
   }
 
   const handleRemoveLinkedWord = (idx: number) => {
@@ -50,7 +50,7 @@ export default function LinkedWordsForm({
             </span>
             <input
               type="text"
-              value={linkedWord.value}
+              value={linkedWord.textValue}
               onChange={(e) => handleLinkedWordChange(index, e.target.value)}
               placeholder="linkedWord value"
             />

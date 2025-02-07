@@ -1,8 +1,14 @@
 import { Database } from './supabase'
 import { Category } from './category'
 
+/* DB */
 export type WordRow = Database['public']['Tables']['word']['Row']
+export type WordDefinitionRow =
+  Database['public']['Tables']['word_definition']['Row']
+export type WordLinkTypeRow =
+  Database['public']['Tables']['word_link_type']['Row']
 
+/* UI */
 export interface Word {
   id: string
   word: string
@@ -55,6 +61,17 @@ export interface LinkedWord {
 
 export interface LinkedWordInput {
   type: WordLinkType
-  value: string
-  selectedWordId?: string
+  textValue: string
+  linkedWordId?: string
+}
+
+export interface NewWord {
+  categoryId: Category['id']
+  word: Word['word']
+  ipa?: Word['ipa']
+  definitions: WordDefinition[]
+  isMarked: Word['isMarked']
+  examples: Word['examples'] | []
+  linkedWords: string[]
+  memo?: Word['memo']
 }
